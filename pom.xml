@@ -9,7 +9,7 @@
 	</parent>
 	<groupId>com.emesall</groupId>
 	<artifactId>spring-udemy-petclinic</artifactId>
-	<version>0.0.1</version>
+	<version>0.0.2-SNAPSHOT</version>
 	<name>spring-udemy-petclinic</name>
 	<description>Pet Clinic application</description>
 	<properties>
@@ -47,7 +47,7 @@
 	</build>
 	<scm>
 		<developerConnection>scm:git:https://github.com/Emesall/spring-udemy-petclinic.git</developerConnection>
-		<tag>spring-udemy-petclinic-0.0.1</tag>
+		<tag>HEAD</tag>
 	</scm>
 
 
