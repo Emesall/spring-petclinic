@@ -16,6 +16,12 @@
 		<java.version>17</java.version>
 	</properties>
 
+	<packaging>pom</packaging>
+	<modules>
+		<module>petclinic-data</module>
+		<module>petclinic-web</module>
+	</modules>
+
 	<build>
 		<plugins>
 			<plugin>
@@ -41,11 +47,8 @@
 	</build>
 	<scm>
 		<developerConnection>scm:git:https://github.com/Emesall/spring-udemy-petclinic.git</developerConnection>
-  </scm>
+		<tag>HEAD</tag>
+	</scm>
 
-	<packaging>pom</packaging>
-	<modules>
-		<module>petclinic-data</module>
-		<module>petclinic-web</module>
-	</modules>
+
 </project>
