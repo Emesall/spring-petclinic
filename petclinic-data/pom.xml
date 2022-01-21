@@ -3,7 +3,7 @@
 	<parent>
 		<groupId>com.emesall</groupId>
 		<artifactId>spring-udemy-petclinic</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
+		<version>0.0.1</version>
 	</parent>
 	<artifactId>petclinic-data</artifactId>
 	<name>petclinic-data</name>

@@ -3,7 +3,7 @@
 	<parent>
 		<groupId>com.emesall</groupId>
 		<artifactId>spring-udemy-petclinic</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
+		<version>0.0.1</version>
 	</parent>
 	<artifactId>petclinic-web</artifactId>
 	<name>petclinic-web</name>
@@ -12,7 +12,7 @@
 		<dependency>
 			<groupId>com.emesall</groupId>
 			<artifactId>petclinic-data</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>0.0.1</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
