@@ -1,17 +1,9 @@
 package com.emesall.petclinic.service;
 
-import java.util.Set;
-
 import com.emesall.petclinic.model.Owner;
 
-public interface OwnerService {
+public interface OwnerService extends CrudService<Owner, Long> {
 
 	Owner findByLastName(String lastName);
 
-	Owner findByID(Long id);
-
-	Owner save(Owner owner);
-
-	Set<Owner> findAll();
-	
 }
