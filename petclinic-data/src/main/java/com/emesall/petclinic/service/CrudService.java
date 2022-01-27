@@ -3,9 +3,9 @@ package com.emesall.petclinic.service;
 import java.util.Set;
 
 public interface CrudService<T, ID> {
-	T findByID(ID id);
+	T findById(ID id);
 
-	T save(T object);
+	T save(ID id,T object);
 
 	Set<T> findAll();
 
