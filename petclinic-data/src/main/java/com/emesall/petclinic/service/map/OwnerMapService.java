@@ -1,51 +1,50 @@
 package com.emesall.petclinic.service.map;
 
-import java.util.Set;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.emesall.petclinic.model.Owner;
 import com.emesall.petclinic.service.OwnerService;
+import com.emesall.petclinic.service.PetService;
+import com.emesall.petclinic.service.PetTypeService;
 
 @Service
 public class OwnerMapService extends AbstractClassService<Owner, Long> implements OwnerService {
 
-	@Override
-	public Owner findById(Long id) {
-		return super.findById(id);
+	private final PetTypeService petTypeService;
+	private final PetService petService;
 
+	@Autowired
+	public OwnerMapService(PetTypeService petTypeService, PetService petService) {
+		this.petTypeService = petTypeService;
+		this.petService = petService;
 	}
 
 	@Override
 	public Owner save(Owner object) {
-		return super.save(object);
-	}
+		if (object != null) {
+			if (object.getPets() != null) {
+				object.getPets().forEach(pet ->
+					{
 
-	@Override
-	public Set<Owner> findAll() {
-		return super.findAll();
-	}
+						pet.setPetType(petTypeService.save(pet.getPetType()));
 
-	@Override
-	public void delete(Owner object) {
-		super.delete(object);
+						petService.save(pet);
 
-	}
+					});
+			}
 
-	@Override
-	public void deleteById(Long id) {
-		super.deleteById(id);
+			return super.save(object);
 
+		} else {
+			return null;
+		}
 	}
 
 	@Override
 	public Owner findByLastName(String lastName) {
 
-		return map.values()
-				.stream()
-				.filter(owner -> owner.getLastName().equals(lastName))
-				.findFirst()
-				.orElse(null);
+		return map.values().stream().filter(owner -> owner.getLastName().equals(lastName)).findFirst().orElse(null);
 
 	}
 
