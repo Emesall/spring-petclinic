@@ -8,4 +8,8 @@ import com.emesall.petclinic.service.SpecialityService;
 @Service
 public class SpecialityMapService extends AbstractClassService<Speciality, Long> implements SpecialityService {
 
+	
+
+
+	
 }
