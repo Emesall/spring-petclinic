@@ -1,11 +1,11 @@
 package com.emesall.petclinic.repository;
 
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import com.emesall.petclinic.model.PetType;
 
 @Repository
-public interface PetTypRepository extends CrudRepository<PetType, Long>{
+public interface PetTypRepository extends JpaRepository<PetType, Long>{
 
 }

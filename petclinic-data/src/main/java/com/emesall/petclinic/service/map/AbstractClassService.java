@@ -7,8 +7,9 @@ import java.util.Map;
 import java.util.Set;
 
 import com.emesall.petclinic.model.BaseEntity;
+import com.emesall.petclinic.service.CrudService;
 
-public abstract class AbstractClassService<T extends BaseEntity, ID>{
+public abstract class AbstractClassService<T extends BaseEntity, ID> implements CrudService<T, ID>{
 
 	protected Map<Long, T> map = new HashMap<>();
 
