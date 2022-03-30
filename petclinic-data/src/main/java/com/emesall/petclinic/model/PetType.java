@@ -6,11 +6,12 @@ import javax.persistence.Table;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 
 @Getter
 @Setter
 @Entity
-//@Table(name="pet_type")
+@Table(name="pet_type")
 public class PetType extends BaseEntity {
 
 	@Column(name="name")

@@ -10,10 +10,14 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 
 @Getter
 @Setter
+@SuperBuilder
+@NoArgsConstructor
 @Entity
 @Table(name = "owner")
 public class Owner extends Person {
@@ -26,6 +30,6 @@ public class Owner extends Person {
 	private String telephone;
 
 	@OneToMany(cascade=CascadeType.ALL ,mappedBy="owner")
-	private Set<Pet> pets = new HashSet<>();
+	private final Set<Pet> pets = new HashSet<>();
 
 }
