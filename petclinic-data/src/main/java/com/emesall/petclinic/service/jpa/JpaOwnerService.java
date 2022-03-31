@@ -18,7 +18,7 @@ public class JpaOwnerService extends JpaAbstractClassService<Owner, OwnerReposit
 	@Override
 	public Owner findByLastName(String lastName) {
 
-		return repository.findByLastName(lastName);
+		return repository.findByLastName(lastName).orElseThrow(()->new RuntimeException("Owner not Found"));
 	}
 
 }
