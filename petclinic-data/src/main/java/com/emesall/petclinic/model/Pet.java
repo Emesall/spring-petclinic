@@ -12,12 +12,13 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.experimental.SuperBuilder;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
-@Getter
-@Setter
+@Data
+@EqualsAndHashCode(callSuper = true,exclude = "owner")
+@ToString(exclude = "owner")
 @Entity
 @Table(name = "pet")
 public class Pet extends BaseEntity {

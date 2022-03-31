@@ -31,5 +31,10 @@ public class Owner extends Person {
 
 	@OneToMany(cascade=CascadeType.ALL ,mappedBy="owner")
 	private final Set<Pet> pets = new HashSet<>();
+	
+	public void addPet(Pet pet) {
+		pets.add(pet);
+		pet.setOwner(this);
+	}
 
 }

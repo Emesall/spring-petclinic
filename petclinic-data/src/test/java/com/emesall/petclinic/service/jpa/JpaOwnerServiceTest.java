@@ -42,15 +42,19 @@ class JpaOwnerServiceTest {
 
 	@Test
 	void testFindByLastName() {
+		
 		// given
-		when(ownerRepository.findByLastName(anyString())).thenReturn(Optional.of(owner));
+		List<Owner> owners=new ArrayList<>();
+		owners.add(owner);
+		when(ownerRepository.findByLastNameLikeIgnoreCase(anyString())).thenReturn(owners);
 		// when
-		Owner foundOwner = jpaOwnerService.findByLastName(LASTNAME);
+		List<Owner> foundOwners = jpaOwnerService.findByLastName(LASTNAME);
 		// then
-		assertNotNull(foundOwner);
-		verify(ownerRepository, times(1)).findByLastName(anyString());
-		assertEquals(_ID, foundOwner.getId());
-		assertEquals(LASTNAME, foundOwner.getLastName());
+		assertNotNull(foundOwners);
+		verify(ownerRepository, times(1)).findByLastNameLikeIgnoreCase(anyString());
+		assertEquals(_ID, foundOwners.get(0).getId());
+		assertEquals(LASTNAME, foundOwners.get(0).getLastName());
+		assertEquals(1, foundOwners.size());
 
 	}
 

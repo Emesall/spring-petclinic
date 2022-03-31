@@ -1,5 +1,7 @@
 package com.emesall.petclinic.service.jpa;
 
+import java.util.List;
+
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
@@ -16,9 +18,9 @@ public class JpaOwnerService extends JpaAbstractClassService<Owner, OwnerReposit
 	}
 
 	@Override
-	public Owner findByLastName(String lastName) {
+	public List<Owner> findByLastName(String lastName) {
 
-		return repository.findByLastName(lastName).orElseThrow(()->new RuntimeException("Owner not Found"));
+		return repository.findByLastNameLikeIgnoreCase(lastName);
 	}
 
 }

@@ -1,5 +1,7 @@
 package com.emesall.petclinic.service.map;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
@@ -44,9 +46,9 @@ public class OwnerMapService extends AbstractClassService<Owner, Long> implement
 	}
 
 	@Override
-	public Owner findByLastName(String lastName) {
+	public List<Owner> findByLastName(String lastName) {
 
-		return map.values().stream().filter(owner -> owner.getLastName().equals(lastName)).findFirst().orElse(null);
+		return map.values().stream().filter(owner->owner.getLastName().equals(lastName)).toList();
 
 	}
 

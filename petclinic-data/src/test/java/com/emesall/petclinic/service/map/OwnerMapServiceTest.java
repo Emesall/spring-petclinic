@@ -1,10 +1,10 @@
 package com.emesall.petclinic.service.map;
 
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.List;
 import java.util.Set;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -62,20 +62,21 @@ class OwnerMapServiceTest {
 	@Test
 	void testFindByLastName() {
 		// when
-		Owner foundOwner = mapService.findByLastName(LASTNAME);
+		List<Owner> foundOwner = mapService.findByLastName(LASTNAME);
 		// then
 		assertNotNull(foundOwner);
-		assertEquals(1L, foundOwner.getId());
-		assertEquals(LASTNAME, foundOwner.getLastName());
+		assertEquals(1L, foundOwner.get(0).getId());
+		assertEquals(LASTNAME, foundOwner.get(0).getLastName());
+		assertEquals(1, foundOwner.size());
 
 	}
 
 	@Test
 	void testNotFoundByLastName() {
 		// when
-		Owner foundOwner = mapService.findByLastName("dsd");
+		List<Owner> foundOwner = mapService.findByLastName("dsds");
 		// then
-		assertNull(foundOwner);
+		assertThat(foundOwner.isEmpty());
 
 
 	}

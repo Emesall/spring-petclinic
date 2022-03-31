@@ -1,7 +1,9 @@
 package com.emesall.petclinic.controllers;
 
 import static org.hamcrest.CoreMatchers.equalToObject;
+import static org.hamcrest.CoreMatchers.is;
 import static org.mockito.Mockito.when;
+import static org.mockito.ArgumentMatchers.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -11,6 +13,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.InjectMocks;
@@ -62,4 +65,15 @@ class OwnerControllerTest {
 				.andExpect(model().attribute("owners", equalToObject(owners)));
 	}
 
+	@Test
+    void showOwner() throws Exception {
+		//given
+		Owner owner=Owner.builder().id(1l).build();
+        when(ownerService.findById(anyLong())).thenReturn(owner);
+        //then
+        mockMvc.perform(get("/owners/123"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("owners/ownerDetails"))
+                .andExpect(model().attribute("owner", equalToObject(owner)));
+    }
 }
