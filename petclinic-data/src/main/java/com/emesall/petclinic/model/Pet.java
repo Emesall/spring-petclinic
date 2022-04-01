@@ -12,12 +12,14 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 @Data
-@EqualsAndHashCode(callSuper = true,exclude = "owner")
+@EqualsAndHashCode(callSuper = true,exclude="owner")
 @ToString(exclude = "owner")
 @Entity
 @Table(name = "pet")
@@ -34,6 +36,7 @@ public class Pet extends BaseEntity {
 	@JoinColumn(name = "owner_id")
 	private Owner owner;
 
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	@Column(name = "birth_date")
 	private LocalDate birthDate;
 

@@ -52,7 +52,7 @@ public class OwnerController {
 	}
 
 	@GetMapping
-	public String processFindForm(Owner owner, BindingResult bindingResult, Model model) {
+	public String processFindForm(@ModelAttribute Owner owner, BindingResult bindingResult, Model model) {
 
 		// if there is no name provided, we show list of all owners
 		if (owner.getLastName() == null) {
@@ -85,7 +85,7 @@ public class OwnerController {
 	}
 
 	@PostMapping("/new")
-	public String processNewOwnerForm(@Valid Owner owner, BindingResult bindingResult) {
+	public String processNewOwnerForm(@Valid @ModelAttribute Owner owner, BindingResult bindingResult) {
 
 		if (bindingResult.hasErrors()) {
 			return "owners/createOrUpdateOwnerForm";

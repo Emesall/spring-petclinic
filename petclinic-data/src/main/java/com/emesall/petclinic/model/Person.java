@@ -3,13 +3,13 @@ package com.emesall.petclinic.model;
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
 
-import lombok.Getter;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
-@Getter
-@Setter
+@Data
+@EqualsAndHashCode(callSuper = true)
 @SuperBuilder
 @NoArgsConstructor
 @MappedSuperclass

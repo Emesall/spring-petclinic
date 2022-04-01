@@ -20,6 +20,7 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @Entity
 @Table(name = "owner")
+
 public class Owner extends Person {
 
 	@Column(name = "address")
@@ -29,12 +30,19 @@ public class Owner extends Person {
 	@Column(name = "telephone")
 	private String telephone;
 
-	@OneToMany(cascade=CascadeType.ALL ,mappedBy="owner")
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
 	private final Set<Pet> pets = new HashSet<>();
-	
+
 	public void addPet(Pet pet) {
-		pets.add(pet);
 		pet.setOwner(this);
+		pets.add(pet);
+	}
+
+	public boolean checkIfPresent(Pet pet) {
+		if (pets.stream().filter(p -> p.getName().equals(pet.getName())).findFirst().isPresent()) {
+			return true;
+		}
+		return false;
 	}
 
 }
