@@ -8,9 +8,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import lombok.Getter;
 import lombok.Setter;
-import lombok.experimental.SuperBuilder;
 
 @Getter
 @Setter
@@ -18,6 +19,7 @@ import lombok.experimental.SuperBuilder;
 @Table(name = "visit")
 public class Visit extends BaseEntity {
 
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	@Column(name = "date")
 	private LocalDate date;
 
