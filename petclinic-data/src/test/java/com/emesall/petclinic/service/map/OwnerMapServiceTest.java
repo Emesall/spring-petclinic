@@ -1,6 +1,5 @@
 package com.emesall.petclinic.service.map;
 
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -26,10 +25,13 @@ class OwnerMapServiceTest {
 	@Mock
 	PetService petService;
 
+	Owner owner;
+
 	@BeforeEach
 	void setUp() throws Exception {
 		mapService = new OwnerMapService(petTypeService, petService);
-		mapService.map.put(1L, Owner.builder().id(_ID).lastName(LASTNAME).build());
+		owner = Owner.builder().id(_ID).lastName(LASTNAME).build();
+		mapService.map.put(1L, owner);
 
 	}
 
@@ -78,7 +80,6 @@ class OwnerMapServiceTest {
 		// then
 		assertThat(foundOwner.isEmpty());
 
-
 	}
 
 	@Test
@@ -118,8 +119,6 @@ class OwnerMapServiceTest {
 
 	@Test
 	void testDelete() {
-		// given
-		Owner owner = Owner.builder().id(_ID).lastName("test2").build();
 		// when
 		mapService.delete(owner);
 		// then
