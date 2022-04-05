@@ -19,6 +19,9 @@ import lombok.Setter;
 @Table(name = "visit")
 public class Visit extends BaseEntity {
 
+	
+	private static final long serialVersionUID = -5197289063421291432L;
+
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	@Column(name = "date")
 	private LocalDate date;

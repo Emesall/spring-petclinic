@@ -25,6 +25,9 @@ import lombok.ToString;
 @Table(name = "pet")
 public class Pet extends BaseEntity {
 
+
+	private static final long serialVersionUID = 4168386455313856953L;
+
 	@Column(name = "name")
 	private String name;
 

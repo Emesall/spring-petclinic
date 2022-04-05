@@ -4,8 +4,10 @@ import java.time.LocalDate;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import com.emesall.petclinic.config.SecurityConfig;
 import com.emesall.petclinic.model.Owner;
 import com.emesall.petclinic.model.Pet;
 import com.emesall.petclinic.model.PetType;
@@ -26,16 +28,18 @@ public class DataLoader implements CommandLineRunner {
 	private final PetTypeService petTypeService;
 	private final SpecialityService specialityService;
 	private final VisitService visitService;
+	private final PasswordEncoder encoder;
 
 	@Autowired
 	public DataLoader(OwnerService ownerService, VetService vetService, PetTypeService petTypeService,
-			SpecialityService specialityService, VisitService visitService) {
+			SpecialityService specialityService, VisitService visitService,PasswordEncoder encoder) {
 		super();
 		this.ownerService = ownerService;
 		this.vetService = vetService;
 		this.petTypeService = petTypeService;
 		this.specialityService = specialityService;
 		this.visitService = visitService;
+		this.encoder=encoder;
 	}
 
 	@Override
@@ -77,6 +81,8 @@ public class DataLoader implements CommandLineRunner {
 		 * owner1.setCity("Miami"); owner1.setTelephone("1231231234");
 		 */
 		Owner owner1 = Owner.builder()
+				.username("owner1")
+				.password(encoder.encode("owner1"))
 				.firstName("Michael")
 				.lastName("Weston")
 				.address("123 Brickerel")
@@ -138,6 +144,8 @@ public class DataLoader implements CommandLineRunner {
 		System.out.println("Loaded Owners....");
 
 		Vet vet1 = new Vet();
+		vet1.setUsername("vet1");
+		vet1.setPassword("vet1");
 		vet1.setFirstName("Sam");
 		vet1.setLastName("Axe");
 		vet1.getSpecialities().add(radiology);

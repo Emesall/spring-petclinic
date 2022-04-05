@@ -11,7 +11,6 @@ import javax.persistence.Table;
 
 import lombok.Getter;
 import lombok.Setter;
-import lombok.experimental.SuperBuilder;
 
 @Getter
 @Setter
@@ -19,6 +18,14 @@ import lombok.experimental.SuperBuilder;
 @Table(name = "vet")
 public class Vet extends Person {
 
+	
+	private static final long serialVersionUID = -3791045289170168284L;
+	/*
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		return Arrays.asList(new SimpleGrantedAuthority("ROLE_VET"));
+	}*/
+	
 	@ManyToMany
 	@JoinTable(name = "vet_speciality", joinColumns = @JoinColumn(name = "vet_id"), inverseJoinColumns = @JoinColumn(name = "speciality_id"))
 	private Set<Speciality> specialities = new HashSet<>();

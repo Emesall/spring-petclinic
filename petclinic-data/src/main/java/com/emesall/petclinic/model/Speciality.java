@@ -13,6 +13,10 @@ import lombok.Setter;
 @Table(name = "speciality")
 public class Speciality extends BaseEntity {
 
+
+	
+	private static final long serialVersionUID = -4427879611674083945L;
+	
 	@Column(name = "description")
 	private String description;
 }

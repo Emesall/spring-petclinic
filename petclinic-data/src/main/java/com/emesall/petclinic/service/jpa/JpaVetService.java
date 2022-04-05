@@ -16,4 +16,5 @@ public class JpaVetService extends JpaAbstractClassService<Vet, VetRepository, L
 
 	}
 
+	
 }
