@@ -1,13 +1,11 @@
 package com.emesall.petclinic.model;
 
-import java.util.Arrays;
 import java.util.Collection;
 
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
 
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import lombok.Data;

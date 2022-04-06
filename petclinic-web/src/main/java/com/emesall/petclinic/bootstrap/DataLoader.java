@@ -7,7 +7,6 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
-import com.emesall.petclinic.config.SecurityConfig;
 import com.emesall.petclinic.model.Owner;
 import com.emesall.petclinic.model.Pet;
 import com.emesall.petclinic.model.PetType;

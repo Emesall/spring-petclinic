@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org"
+	th:replace="~{fragments/layout :: layout (~{::body},'owners')}">
+
+<body>
+
+	<h2>Register</h2>
+
+	<form th:object="${registerForm}" class="form-horizontal" method="POST"
+		id="registerForm">
+		<div class="form-group has-feedback">
+			<input
+				th:replace="~{fragments/inputField :: input ('Username', 'username', 'text')}" />
+			<input
+				th:replace="~{fragments/inputField :: input ('Password', 'password', 'password')}" />
+			<input
+				th:replace="~{fragments/inputField :: input ('Confirm Password', 'password', 'password')}" />
+			<input
+				th:replace="~{fragments/inputField :: input ('First Name', 'firstName', 'text')}" />
+			<input
+				th:replace="~{fragments/inputField :: input ('Last Name', 'lastName', 'text')}" />
+			<input
+				th:replace="~{fragments/inputField :: input ('Address', 'address', 'text')}" />
+			<input
+				th:replace="~{fragments/inputField :: input ('City', 'city', 'text')}" />
+			<input
+				th:replace="~{fragments/inputField :: input ('Telephone', 'telephone', 'text')}" />
+		</div>
+		<div class="form-group">
+			<div class="col-sm-offset-2 col-sm-10">
+				<button class="btn btn-default" type="submit" th:text="Submit">Add
+					Owner</button>
+			</div>
+		</div>
+	</form>
+</body>
+</html>
