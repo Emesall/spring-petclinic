@@ -38,7 +38,8 @@
 			<div class="navbar-collapse collapse" id="main-navbar">
 				<ul class="nav navbar-nav navbar-right">
 
-					<li th:replace="~{fragments/menuItem::menuItem ('/','home','home page','home','Home')}">
+					<li
+						th:replace="~{fragments/menuItem::menuItem ('/','home','home page','home','Home')}">
 						<span class="glyphicon glyphicon-home" aria-hidden="true"></span>
 						<span>Home</span>
 					</li>
@@ -54,18 +55,29 @@
 						<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
 						<span>Veterinarians</span>
 					</li>
-					<li>
-						<form action="@{/logout}" method="post" >
-							<button type="submit" name="logout" class="btn-link">
-								<span class="glyphicon glyphicon-log-in" aria-hidden="true"></span>
-								<span th:text="Logout">Template</span>
+					<li sec:authorize="isAuthenticated()">
+
+						<form th:action="@{/logout}" method="POST">
+							<button type="submit" name="Logout" class="btn-link"
+								value="Logout">
+								<span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>
+								<span th:text="Logout">Logout</span>
 							</button>
 						</form>
+
 					</li>
+					<li sec:authorize="isAnonymous()"><a th:href="@{/login}">
+							<span class="glyphicon glyphicon-log-in" aria-hidden="true"></span>
+							<span th:text="Login">Login</span>
+
+
+
+					</a></li>
 				</ul>
 			</div>
 		</div>
 	</nav>
+
 	<div class="container-fluid">
 		<div class="container xd-container">
 
@@ -82,8 +94,18 @@
 			</div>
 		</div>
 	</div>
-
-
+	<!-- thymeleaf security handful staff
+	<h2>Welcome</h2>
+	<p>Spring Security Thymeleaf tutorial</p>
+	<div sec:authorize="hasRole('USER')">Text visible to user.</div>
+	<div sec:authorize="hasRole('ADMIN')">Text visible to admin.</div>
+	<div sec:authorize="isAuthenticated()">Text visible only to
+		authenticated users.</div>
+	Authenticated username:
+	<div sec:authentication="name"></div>
+	Authenticated user roles:
+	<div sec:authentication="authorities"></div>
+	-->
 
 </body>
 
