@@ -1,3 +1,4 @@
+<!doctype html>
 <html xmlns:th="http://www.thymeleaf.org"
   th:replace="~{fragments/layout :: layout (~{::body},'owners')}">
 
@@ -6,7 +7,7 @@
   <h2>Find Owners</h2>
 
   <form th:object="${owner}" th:action="@{/owners}" method="get"
-    class="form-horizontal" id="search-owner-form">
+    class="form-horizontal" id="search-owner-form" >
     <div class="form-group">
       <div class="control-group" id="lastNameGroup">
         <label class="col-sm-2 control-label">Last name </label>

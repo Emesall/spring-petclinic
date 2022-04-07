@@ -5,6 +5,7 @@
   border-bottom: 0;
   border-left: 0;
   border-right: 0;
+
 }
 
 .navbar a.navbar-brand {
@@ -23,40 +24,61 @@
   height: 46px;
   background: url("../images/spring-logo-dataflow.png") -1px -48px no-repeat;
   opacity: 0;
-  -moz-transition: opacity 0.12s ease-in-out;
-  -webkit-transition: opacity 0.12s ease-in-out;
-  -o-transition: opacity 0.12s ease-in-out;
+  transition: .5s;
+ 
 }
 
 .navbar a:hover.navbar-brand span {
   opacity: 1;
 }
 
+
 .navbar li > a, .navbar-text {
   font-family: "montserratregular", sans-serif;
   text-shadow: none;
   font-size: 14px;
-
-/* line-height: 14px; */
   padding: 28px 20px;
-  transition: all 0.15s;
-  -webkit-transition: all 0.15s;
-  -moz-transition: all 0.15s;
-  -o-transition: all 0.15s;
-  -ms-transition: all 0.15s;
+}
+
+
+.navbar li > form > button, .navbar-text {
+  font-family: "montserratregular", sans-serif;
+  text-shadow: none;
+  font-size: 14px;
+  padding: 28px 20px;
+  
+
 }
 
 .navbar li > a {
   text-transform: uppercase;
+  transition: .5s;
+}
+
+.navbar li > form > button {
+  text-transform: uppercase;
+  transition: .5s;
+  border-width: 0;
 }
 
 .navbar .navbar-text {
   margin-top: 0;
   margin-bottom: 0;
 }
+
+
 .navbar li:hover > a {
   color: #eeeeee;
   background-color: #6db33f;
+  
+}
+
+
+.navbar li:hover > form >button{
+  color: #eeeeee;
+  background-color: #6db33f;
+  text-decoration: none;
+  
 }
 
 .navbar-toggle {
@@ -70,4 +92,6 @@
     height: 3px;
   }
 
+
 }
+
