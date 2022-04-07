@@ -9,6 +9,7 @@ public class RegistrationForm {
 
 	private String username;
 	private String password;
+	private String matchingPassword;
 	private String firstName;
 	private String lastName;
 	private String address;
@@ -26,5 +27,7 @@ public class RegistrationForm {
 				.telephone(telephone)
 				.build();
 	}
+	
+	
 
 }

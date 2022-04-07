@@ -29,7 +29,7 @@
     </tr>
   </table>
 
-  <form th:object="${visit}" class="form-horizontal" method="post">
+  <form th:action="@{''}" th:object="${visit}" class="form-horizontal" method="post">
     <div class="form-group has-feedback">
       <input
         th:replace="~{fragments/inputField :: input ('Date', 'date', 'date')}"  />

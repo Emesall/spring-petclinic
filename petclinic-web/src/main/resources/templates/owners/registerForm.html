@@ -6,7 +6,7 @@
 <body>
 
 	<h2>Register</h2>
-	<form th:object="${registerForm}" class="form-horizontal" method="POST"
+	<form th:action="@{''}" th:object="${registerForm}" class="form-horizontal" method="POST"
 		id="registerForm">
 		<div class="form-group has-feedback">
 			<input
@@ -14,7 +14,7 @@
 			<input
 				th:replace="~{fragments/inputField :: input ('Password', 'password', 'password')}" />
 			<input
-				th:replace="~{fragments/inputField :: input ('Confirm Password', 'password', 'password')}" />
+				th:replace="~{fragments/inputField :: input ('Confirm Password', 'matchingPassword', 'password')}" />
 			<input
 				th:replace="~{fragments/inputField :: input ('First Name', 'firstName', 'text')}" />
 			<input
