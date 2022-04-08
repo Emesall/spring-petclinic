@@ -1,17 +1,43 @@
+
+
+
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{fragments/layout :: layout (~{::body},'home')}">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	th:replace="~{fragments/layout :: layout (~{::body},'home')}">
 <head>
-    <meta charset="UTF-8"/>
-    <title>Pet Clinic Index</title>
+<meta charset="UTF-8" />
+<title>Pet Clinic Index</title>
+
+
+
+
 </head>
 <body>
-    <h2 th:text="#{welcome}">Welcome</h2>
+	<style>
+img {
+	border-radius: 15px;
+}
+</style>
+	<h2 th:text="#{welcome}">Welcome</h2>
 
-    <div class="row">
-        <div class="col-md-12">
-            <img class="img-responsive" src="../static/resources/images/pets.png" th:src="@{/resources/images/pets.png}"/>
-        </div>
-    </div>
+	<div class="row">
+		<div class="col-md-4">
+			<img class="img-responsive" src="../static/resources/images/nero.jpg"
+				th:src="@{/resources/images/nero.jpg}" alt="Nero" width="300"
+				height="400" />
+		</div>
+		<div class="col-md-4">
+			<img class="img-responsive" src="../static/resources/images/fox.jpg"
+				th:src="@{/resources/images/fox.jpg}" width="300" height="400" />
+		</div>
+		<div class="col-md-4">
+			<img class="img-responsive" src="../static/resources/images/lat.jpg"
+				th:src="@{/resources/images/lat.jpg}" width="300" height="400" />
+		</div>
+
+
+	</div>
+
 
 </body>
 </html>
