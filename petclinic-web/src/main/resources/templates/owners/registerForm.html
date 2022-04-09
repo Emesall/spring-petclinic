@@ -6,8 +6,12 @@
 <body>
 
 	<h2>Register</h2>
-	<form th:action="@{''}" th:object="${registerForm}" class="form-horizontal" method="POST"
-		id="registerForm">
+
+	<form th:action="@{''}" th:object="${registerForm}"
+		class="form-horizontal" method="POST" id="registerForm">
+		<div th:if="${#fields.hasErrors('*')}" class="alert alert-danger">
+			<p>Please correct some errors</p>
+		</div>
 		<div class="form-group has-feedback">
 			<input
 				th:replace="~{fragments/inputField :: input ('Username', 'username', 'text')}" />

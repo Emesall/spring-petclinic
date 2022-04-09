@@ -17,7 +17,8 @@ img {
 }
 </style>
 	<h2 th:text="#{welcome}">Welcome</h2>
-
+	<div th:if="${param.logout}" class="alert alert-success text-center">
+		You have been logged out.</div>
 	<div class="row">
 		<div class="col-md-4">
 			<img class="img-responsive" src="../static/resources/images/nero.jpg"

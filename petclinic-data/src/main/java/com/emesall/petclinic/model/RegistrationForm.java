@@ -1,17 +1,32 @@
 package com.emesall.petclinic.model;
 
+import javax.validation.constraints.NotBlank;
+
 import org.springframework.security.crypto.password.PasswordEncoder;
+
+import com.emesall.petclinic.validation.PasswordMatches;
 
 import lombok.Data;
 
 @Data
+@PasswordMatches(field = "password", fieldMatch = "matchingPassword")
 public class RegistrationForm {
 
+	@NotBlank
 	private String username;
+
+	@NotBlank
 	private String password;
+
+	@NotBlank
 	private String matchingPassword;
+
+	@NotBlank
 	private String firstName;
+
+	@NotBlank
 	private String lastName;
+
 	private String address;
 	private String city;
 	private String telephone;
@@ -27,7 +42,5 @@ public class RegistrationForm {
 				.telephone(telephone)
 				.build();
 	}
-	
-	
 
 }
