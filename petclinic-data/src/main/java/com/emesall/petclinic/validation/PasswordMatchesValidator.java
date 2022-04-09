@@ -21,7 +21,18 @@ public class PasswordMatchesValidator implements ConstraintValidator<PasswordMat
 		Object fieldMatchValue = new BeanWrapperImpl(value).getPropertyValue(fieldMatch);
 
 		if (fieldValue != null) {
-			return fieldValue.equals(fieldMatchValue);
+			boolean isValid = fieldValue.equals(fieldMatchValue);
+			if (!isValid) {
+				context.disableDefaultConstraintViolation();
+				context.buildConstraintViolationWithTemplate(context.getDefaultConstraintMessageTemplate())
+						.addPropertyNode(fieldMatch)
+						.addConstraintViolation();
+
+				context.buildConstraintViolationWithTemplate(context.getDefaultConstraintMessageTemplate())
+						.addPropertyNode(field)
+						.addConstraintViolation();
+			}
+			return isValid;
 		} else {
 			return fieldMatchValue == null;
 		}
