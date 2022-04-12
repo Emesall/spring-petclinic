@@ -28,13 +28,13 @@ import lombok.experimental.SuperBuilder;
 
 public class Owner extends Person {
 
-
 	private static final long serialVersionUID = 4998824591446951188L;
-	
+
 	@Column(name = "address")
 	private String address;
 	@Column(name = "city")
 	private String city;
+
 	@Column(name = "telephone")
 	private String telephone;
 
@@ -45,7 +45,7 @@ public class Owner extends Person {
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		return Arrays.asList(new SimpleGrantedAuthority("ROLE_OWNER"));
 	}
-	
+
 	public void addPet(Pet pet) {
 		pet.setOwner(this);
 		pets.add(pet);

@@ -1,6 +1,7 @@
 package com.emesall.petclinic.service.jpa;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.context.annotation.Profile;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -14,7 +15,8 @@ import com.emesall.petclinic.service.OwnerService;
 
 @Service
 @Profile("jpa")
-public class JpaOwnerService extends JpaAbstractClassService<Owner, OwnerRepository, Long> implements OwnerService,UserDetailsService {
+public class JpaOwnerService extends JpaAbstractClassService<Owner, OwnerRepository, Long>
+		implements OwnerService, UserDetailsService {
 
 	public JpaOwnerService(OwnerRepository repository) {
 		super(repository);
@@ -28,9 +30,25 @@ public class JpaOwnerService extends JpaAbstractClassService<Owner, OwnerReposit
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		
-		Owner owner=repository.findByUsername(username).orElseThrow(()->new UsernameNotFoundException("Vet" + username + "not found"));
+
+		Owner owner = repository.findByUsername(username)
+				.orElseThrow(() -> new UsernameNotFoundException("Vet" + username + "not found"));
 		return owner;
+	}
+
+	@Override
+	public Optional<Owner> findByUsername(String username) {
+		return repository.findByUsername(username);
+	}
+
+	@Override
+	public boolean checkIfOwnerExists(Owner owner) {
+
+		if (findByUsername(owner.getUsername()).isPresent()) {
+			return true;
+		}
+
+		return false;
 	}
 
 }

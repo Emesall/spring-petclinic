@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.emesall.petclinic.model.Owner;
 import com.emesall.petclinic.model.RegistrationForm;
 import com.emesall.petclinic.service.OwnerService;
 import com.emesall.petclinic.service.VetService;
@@ -20,6 +21,7 @@ import com.emesall.petclinic.service.VetService;
 @RequestMapping("/register")
 public class RegistrationController {
 
+	private static final String OWNER_REGISTER_FORM = "owners/registerForm";
 	private final OwnerService ownerService;
 	private final VetService vetService;
 	private final PasswordEncoder encoder;
@@ -36,17 +38,22 @@ public class RegistrationController {
 	@GetMapping("/owner")
 	public String registerFormOwner(Model model) {
 		model.addAttribute("registerForm", new RegistrationForm());
-		return "owners/registerForm";
+		return OWNER_REGISTER_FORM;
 	}
 
 	@PostMapping("/owner")
-	public String processRegistrationOwner(@ModelAttribute("registerForm") @Valid RegistrationForm form, BindingResult bindingResult) {
-		if (bindingResult.hasErrors()) {
-			return "owners/registerForm";
+	public String processRegistrationOwner(@ModelAttribute("registerForm") @Valid RegistrationForm form,
+			BindingResult bindingResult) {
+
+		Owner owner = form.DataToOwner(encoder);
+		if (ownerService.checkIfOwnerExists(owner)) {
+			bindingResult.rejectValue("username", "username.exists");
+		} else {
+			ownerService.save(owner);
+			return "redirect:/login";
 		}
-		
-		ownerService.save(form.DataToOwner(encoder));
-		return "redirect:/login";
+		return OWNER_REGISTER_FORM;
+
 	}
 
 	// handle registration of vet

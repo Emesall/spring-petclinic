@@ -1,6 +1,7 @@
 package com.emesall.petclinic.service.map;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
@@ -12,7 +13,7 @@ import com.emesall.petclinic.service.PetService;
 import com.emesall.petclinic.service.PetTypeService;
 
 @Service
-@Profile({"default","map"})
+@Profile({ "default", "map" })
 public class OwnerMapService extends AbstractClassService<Owner, Long> implements OwnerService {
 
 	private final PetTypeService petTypeService;
@@ -48,8 +49,25 @@ public class OwnerMapService extends AbstractClassService<Owner, Long> implement
 	@Override
 	public List<Owner> findByLastName(String lastName) {
 
-		return map.values().stream().filter(owner->owner.getLastName().equals(lastName)).toList();
+		return map.values().stream().filter(owner -> owner.getLastName().equals(lastName)).toList();
 
+	}
+
+	@Override
+	public Optional<Owner> findByUsername(String username) {
+
+		return map.values().stream().filter(owner -> owner.getUsername().equals(username)).findFirst();
+
+	}
+
+	@Override
+	public boolean checkIfOwnerExists(Owner owner) {
+
+		if (findByUsername(owner.getUsername()).isPresent()) {
+			return true;
+		}
+
+		return false;
 	}
 
 }
