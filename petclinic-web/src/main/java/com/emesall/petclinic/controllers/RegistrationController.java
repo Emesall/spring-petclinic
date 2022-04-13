@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.emesall.petclinic.model.Owner;
 import com.emesall.petclinic.model.RegistrationForm;
@@ -43,16 +44,22 @@ public class RegistrationController {
 
 	@PostMapping("/owner")
 	public String processRegistrationOwner(@ModelAttribute("registerForm") @Valid RegistrationForm form,
-			BindingResult bindingResult) {
-
+			BindingResult bindingResult,RedirectAttributes redirectAttributes) {
+ 
+		//transform registerForm to owner
 		Owner owner = form.DataToOwner(encoder);
-		if (ownerService.checkIfOwnerExists(owner)) {
+		//check if owner exists in database
+		if (ownerService.checkIfOwnerExists(owner))
 			bindingResult.rejectValue("username", "username.exists");
-		} else {
+		//check if there are some validations errors
+		if (bindingResult.hasErrors())
+			return OWNER_REGISTER_FORM;
+		else {
+			//save owner and add attribute that registration successful
 			ownerService.save(owner);
+			redirectAttributes.addFlashAttribute("registered", true);
 			return "redirect:/login";
 		}
-		return OWNER_REGISTER_FORM;
 
 	}
 
