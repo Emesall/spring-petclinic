@@ -1,5 +1,7 @@
 package com.emesall.petclinic.service.map;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
@@ -36,6 +38,20 @@ public class VetMapService extends AbstractClassService<Vet, Long> implements Ve
 		} else {
 			return null;
 		}
+	}
+
+	@Override
+	public List<Vet> findByLastName(String lastName) {
+		return map.values().stream().filter(vet -> vet.getLastName().equals(lastName)).toList();
+	}
+
+	@Override
+	public boolean checkIfExists(Vet veti) {
+		if (map.values().stream().filter(vet -> vet.getUsername().equals(veti.getUsername())).findFirst().isPresent()) {
+			return true;
+		}
+
+		return false;
 	}
 
 }

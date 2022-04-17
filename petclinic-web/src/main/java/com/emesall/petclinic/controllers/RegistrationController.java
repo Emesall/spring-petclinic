@@ -49,16 +49,15 @@ public class RegistrationController {
 		//transform registerForm to owner
 		Owner owner = form.DataToOwner(encoder);
 		//check if owner exists in database
-		if (ownerService.checkIfOwnerExists(owner))
+		if (ownerService.checkIfExists(owner))
 			bindingResult.rejectValue("username", "username.exists");
 		//check if there are some validations errors
 		if (bindingResult.hasErrors())
 			return OWNER_REGISTER_FORM;
 		else {
-			//save owner and add attribute that registration successful
+			//save owner 
 			ownerService.save(owner);
-			redirectAttributes.addFlashAttribute("registered", true);
-			return "redirect:/login";
+			return "redirect:/login?registered";
 		}
 
 	}

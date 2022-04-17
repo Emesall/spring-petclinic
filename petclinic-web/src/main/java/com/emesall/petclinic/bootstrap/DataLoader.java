@@ -7,12 +7,14 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import com.emesall.petclinic.model.Admin;
 import com.emesall.petclinic.model.Owner;
 import com.emesall.petclinic.model.Pet;
 import com.emesall.petclinic.model.PetType;
 import com.emesall.petclinic.model.Speciality;
 import com.emesall.petclinic.model.Vet;
 import com.emesall.petclinic.model.Visit;
+import com.emesall.petclinic.service.AdminService;
 import com.emesall.petclinic.service.OwnerService;
 import com.emesall.petclinic.service.PetTypeService;
 import com.emesall.petclinic.service.SpecialityService;
@@ -24,21 +26,27 @@ public class DataLoader implements CommandLineRunner {
 
 	private final OwnerService ownerService;
 	private final VetService vetService;
+	private final AdminService adminService;
 	private final PetTypeService petTypeService;
 	private final SpecialityService specialityService;
 	private final VisitService visitService;
 	private final PasswordEncoder encoder;
 
+
 	@Autowired
 	public DataLoader(OwnerService ownerService, VetService vetService, PetTypeService petTypeService,
-			SpecialityService specialityService, VisitService visitService,PasswordEncoder encoder) {
+			SpecialityService specialityService, VisitService visitService, PasswordEncoder encoder,
+			AdminService adminService) {
 		super();
 		this.ownerService = ownerService;
 		this.vetService = vetService;
 		this.petTypeService = petTypeService;
 		this.specialityService = specialityService;
 		this.visitService = visitService;
-		this.encoder=encoder;
+		this.encoder = encoder;
+		this.adminService = adminService;
+	
+		
 	}
 
 	@Override
@@ -48,6 +56,9 @@ public class DataLoader implements CommandLineRunner {
 
 		if (count == 0) {
 			loadData();
+		}
+		if (adminService.findAll().size() == 0) {
+			loadAdmins();
 		}
 
 	}
@@ -74,7 +85,6 @@ public class DataLoader implements CommandLineRunner {
 		dentistry.setDescription("dentistry");
 		specialityService.save(dentistry);
 
-		
 		Owner owner1 = Owner.builder()
 				.username("owner1")
 				.password(encoder.encode("owner1"))
@@ -84,50 +94,45 @@ public class DataLoader implements CommandLineRunner {
 				.city("Miami")
 				.telephone("123232")
 				.build();
-		
-		
 
 		Pet mikesPet = new Pet();
 		mikesPet.setPetType(dog);
 		mikesPet.setBirthDate(LocalDate.now());
 		mikesPet.setName("Rosco");
 		owner1.addPet(mikesPet);
-		
+
 		Pet mikesCat = new Pet();
 		mikesCat.setPetType(cat);
 		mikesCat.setBirthDate(LocalDate.now());
 		mikesCat.setName("Catty");
 		owner1.addPet(mikesCat);
-		
-		
+
 		ownerService.save(owner1);
-		
+	
+
 		Owner owner2 = new Owner();
 		owner2.setFirstName("Fiona");
 		owner2.setLastName("Glenanne");
 		owner2.setAddress("123 Brickerel");
 		owner2.setCity("Miami");
 		owner2.setTelephone("1231231234");
-		
+
 		Pet fionasCat = new Pet();
 		fionasCat.setName("Just Cat");
 		fionasCat.setOwner(owner2);
 		fionasCat.setBirthDate(LocalDate.now());
 		fionasCat.setPetType(cat);
 		owner2.getPets().add(fionasCat);
-		
 
-		
-		
 		ownerService.save(owner2);
-		
+	
+
 		Visit dogVisit = new Visit();
 		dogVisit.setPet(mikesPet);
 		dogVisit.setDate(LocalDate.now());
 		dogVisit.setDescription("Dog problem");
 
 		visitService.save(dogVisit);
-		
 
 		Visit catVisit = new Visit();
 		catVisit.setPet(fionasCat);
@@ -140,7 +145,7 @@ public class DataLoader implements CommandLineRunner {
 
 		Vet vet1 = new Vet();
 		vet1.setUsername("vet1");
-		vet1.setPassword("vet1");
+		vet1.setPassword(encoder.encode("vet1"));
 		vet1.setFirstName("Sam");
 		vet1.setLastName("Axe");
 		vet1.getSpecialities().add(radiology);
@@ -155,5 +160,13 @@ public class DataLoader implements CommandLineRunner {
 		vetService.save(vet2);
 
 		System.out.println("Loaded Vets....");
+	}
+
+	private void loadAdmins() {
+		Admin admin1 = Admin.builder().username("panda").password(encoder.encode("piu")).build();
+		Admin admin2 = Admin.builder().username("kot").password(encoder.encode("dziab")).build();
+		adminService.save(admin1);
+		adminService.save(admin2);
+
 	}
 }

@@ -9,7 +9,7 @@ import com.emesall.petclinic.service.VetService;
 
 @Service
 @Profile("jpa")
-public class JpaVetService extends JpaAbstractClassService<Vet, VetRepository, Long> implements VetService {
+public class JpaVetService extends JpaAbstractPersonService<Vet> implements VetService {
 
 	public JpaVetService(VetRepository repository) {
 		super(repository);

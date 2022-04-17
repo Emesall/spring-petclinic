@@ -9,7 +9,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import com.emesall.petclinic.model.BaseEntity;
 import com.emesall.petclinic.service.CrudService;
 
-public class JpaAbstractClassService<T extends BaseEntity, R extends JpaRepository<T, ID>,ID> implements CrudService<T, ID>{
+public abstract class JpaAbstractClassService<T extends BaseEntity, R extends JpaRepository<T, ID>,ID> implements CrudService<T, ID>{
 
 	
 	protected R repository;

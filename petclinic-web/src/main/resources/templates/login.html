@@ -12,7 +12,7 @@
 		login. Check your username and password.</div>
 	<div th:if="${param.logout}" class="alert alert-success text-center">
 		You have been logged out.</div>
-	<div th:if="${registered}==true" class="alert alert-success text-center">
+	<div th:if="${param.registered}" class="alert alert-success text-center">
 		Successfully registered.</div>
 	<form class="form-horizontal" th:action="@{/login}" method="POST"
 		id="loginForm">

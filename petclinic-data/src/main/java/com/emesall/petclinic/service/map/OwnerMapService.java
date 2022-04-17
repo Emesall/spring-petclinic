@@ -53,17 +53,11 @@ public class OwnerMapService extends AbstractClassService<Owner, Long> implement
 
 	}
 
-	@Override
-	public Optional<Owner> findByUsername(String username) {
-
-		return map.values().stream().filter(owner -> owner.getUsername().equals(username)).findFirst();
-
-	}
+	
 
 	@Override
-	public boolean checkIfOwnerExists(Owner owner) {
-
-		if (findByUsername(owner.getUsername()).isPresent()) {
+	public boolean checkIfExists(Owner owner) {
+		if (map.values().stream().filter(own -> own.getUsername().equals(owner.getUsername())).findFirst().isPresent()) {
 			return true;
 		}
 
