@@ -25,7 +25,7 @@ public class Admin extends Person {
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		
-		return Arrays.asList(new SimpleGrantedAuthority("ROLE_ADMIN"),new SimpleGrantedAuthority("ROLE_OWNER"),new SimpleGrantedAuthority("ROLE_VET"));
+		return Arrays.asList(new SimpleGrantedAuthority("ROLE_ADMIN"),new SimpleGrantedAuthority("ROLE_VET"));
 	}
 
 

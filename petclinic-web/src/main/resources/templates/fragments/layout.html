@@ -50,18 +50,23 @@
 						<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
 						<span>Owners</span>
 					</li>
-					
-					<li sec:authorize="!hasRole('ROLE_ADMIN')"
-						th:replace="~{fragments/menuItem::menuItem ('/owners','account','account','search','Account')}">
-						<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+
+					<li sec:authorize="hasRole('ROLE_OWNER') or isAnonymous()"
+						th:replace="~{fragments/menuItem::menuItem ('/owners','account','account','user','Account')}">
+						<span class="glyphicon glyphicon-user" aria-hidden="true"></span>
 						<span>Account</span>
 					</li>
 
-					<li
+
+					<li sec:authorize="hasRole('ROLE_VET') or hasRole('ROLE_OWNER') or isAnonymous()"
 						th:replace="~{fragments/menuItem::menuItem ('/vets','vets','veterinarians','th-list','Veterinarians')}">
 						<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
 						<span>Veterinarians</span>
 					</li>
+					
+
+
+
 					<li sec:authorize="isAuthenticated()">
 
 						<form th:action="@{/logout}" method="POST">

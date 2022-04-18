@@ -52,11 +52,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		http.authorizeRequests()
 					.antMatchers("/admin/**")
 					.hasRole("ADMIN")
-					.antMatchers("/owners/**","/vets/**")
+					.antMatchers("/owners/**")
 					.hasRole("OWNER")
+					.antMatchers("/vets/**")
+					.hasAnyRole("VET","OWNER")
+					
 				.and()
 					.formLogin()
 					.loginPage("/login")
+					.defaultSuccessUrl("/",true)
 				.and()
 					.logout();
 
