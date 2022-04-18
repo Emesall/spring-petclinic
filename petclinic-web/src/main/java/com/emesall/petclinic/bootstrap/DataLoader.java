@@ -111,6 +111,8 @@ public class DataLoader implements CommandLineRunner {
 	
 
 		Owner owner2 = new Owner();
+		owner2.setUsername("owner2");
+		owner2.setPassword(encoder.encode("owner2"));
 		owner2.setFirstName("Fiona");
 		owner2.setLastName("Glenanne");
 		owner2.setAddress("123 Brickerel");
@@ -153,6 +155,8 @@ public class DataLoader implements CommandLineRunner {
 		vetService.save(vet1);
 
 		Vet vet2 = new Vet();
+		vet2.setUsername("vet2");
+		vet2.setPassword(encoder.encode("vet2"));
 		vet2.setFirstName("Jessie");
 		vet2.setLastName("Porter");
 		vet2.getSpecialities().add(surgery);
@@ -163,8 +167,8 @@ public class DataLoader implements CommandLineRunner {
 	}
 
 	private void loadAdmins() {
-		Admin admin1 = Admin.builder().username("panda").password(encoder.encode("piu")).build();
-		Admin admin2 = Admin.builder().username("kot").password(encoder.encode("dziab")).build();
+		Admin admin1 = Admin.builder().username("panda").password(encoder.encode("piu")).firstName("admin1").lastName("admin1").build();
+		Admin admin2 = Admin.builder().username("kot").password(encoder.encode("dziab")).firstName("admin2").lastName("admin2").build();
 		adminService.save(admin1);
 		adminService.save(admin2);
 

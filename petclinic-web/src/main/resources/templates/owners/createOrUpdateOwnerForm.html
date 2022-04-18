@@ -8,6 +8,10 @@
 	<form th:action="@{''}" th:object="${owner}" class="form-horizontal" id="add-owner-form"
 		method="post">
 		<div class="form-group has-feedback">
+		<input type="hidden" th:field="*{password}"/>
+		<input sec:authorize="!hasRole('ROLE_ADMIN')" type="hidden" th:field="*{username}"/>
+		<input sec:authorize="hasRole('ROLE_ADMIN')"
+				th:replace="~{fragments/inputField :: input ('Username', 'username', 'text')}" />
 			<input
 				th:replace="~{fragments/inputField :: input ('First Name', 'firstName', 'text')}" />
 			<input

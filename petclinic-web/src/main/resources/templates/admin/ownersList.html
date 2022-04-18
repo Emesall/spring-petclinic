@@ -9,6 +9,7 @@
     <table id="vets" class="table table-striped">
         <thead>
         <tr>
+        <th style="width: 150px;">Username</th>
             <th style="width: 150px;">Name</th>
             <th style="width: 200px;">Address</th>
             <th>City</th>
@@ -19,8 +20,9 @@
         <tbody>
           <tr th:each="owner : ${selections}">
               <td>
-                  <a th:href="@{/owners/__${owner.id}__}" th:text="${owner.firstName + ' ' + owner.lastName}"/></a>
+                  <a th:href="@{/admin/owners/__${owner.id}__}" th:text="${owner.username}"/></a>
               </td>
+              <td th:text="${owner.firstName + ' ' + owner.lastName}"/>
               <td th:text="${owner.address}"/>
               <td th:text="${owner.city}"/>
               <td th:text="${owner.telephone}"/>

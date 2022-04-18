@@ -24,7 +24,7 @@ import com.emesall.petclinic.service.PetService;
 import com.emesall.petclinic.service.PetTypeService;
 
 @Controller
-@RequestMapping("/owners/{ownerId}")
+@RequestMapping("/admin/owners/{ownerId}")
 public class PetController {
 
 	private static final String VIEWS_PETS_CREATE_OR_UPDATE_FORM = "pets/createOrUpdatePetForm";
@@ -78,7 +78,7 @@ public class PetController {
 		} else {
 
 			petService.save(pet);
-			return "redirect:/owners/" + owner.getId();
+			return "redirect:/admin/owners/" + owner.getId();
 		}
 
 	}
@@ -102,7 +102,7 @@ public class PetController {
 		} else {
 
 			petService.save(pet);
-			return "redirect:/owners/" + owner.getId();
+			return "redirect:/admin/owners/" + owner.getId();
 		}
 	}
 

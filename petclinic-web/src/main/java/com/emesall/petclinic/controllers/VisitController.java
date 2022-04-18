@@ -20,7 +20,7 @@ import com.emesall.petclinic.service.PetService;
 import com.emesall.petclinic.service.VisitService;
 
 @Controller
-@RequestMapping("/owners/{ownerId}/pets/{petId}")
+@RequestMapping("/admin/owners/{ownerId}/pets/{petId}")
 public class VisitController {
 
 	private static final String VIEWS_VISIT_CREATE_OR_UPDATE_FORM = "pets/createOrUpdateVisitForm";
@@ -67,7 +67,7 @@ public class VisitController {
 		} else {
 
 			visitService.save(visit);
-			return "redirect:/owners/{ownerId}";
+			return "redirect:/admin/owners/{ownerId}";
 		}
 
 	}

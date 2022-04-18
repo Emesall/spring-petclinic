@@ -1,15 +1,18 @@
 package com.emesall.petclinic.controllers;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.emesall.petclinic.model.Owner;
 import com.emesall.petclinic.service.OwnerService;
@@ -31,19 +34,32 @@ public class OwnerController {
 		dataBinder.setDisallowedFields("id");
 	}
 
-	@GetMapping("/{id}")
-	public ModelAndView showOwner(@PathVariable Long id) {
 
-		ModelAndView mav = new ModelAndView("owners/ownerDetails");
-		mav.addObject("owner", ownerService.findById(id));
-		return mav;
-	}
 
 	@GetMapping()
 	public String showAccount(Model model, @AuthenticationPrincipal Owner owner) {
 
 		model.addAttribute("owner", ownerService.findById(owner.getId()));
-		return "owners/ownerDetails";
+		return "owners/showOwner";
+	}
+	
+	@GetMapping("/{id}/edit")
+	public String initEditOwnerForm(Model model, @PathVariable Long id) {
+		model.addAttribute("owner", ownerService.findById(id));
+		return "owners/createOrUpdateOwnerForm";
+	}
+
+	@PostMapping("/{id}/edit")
+	public String processEditOwnerForm(@Valid Owner owner, BindingResult bindingResult, @PathVariable Long id) {
+
+		if (bindingResult.hasErrors()) {
+			return "owners/createOrUpdateOwnerForm";
+		} else {
+			owner.setId(id);
+			ownerService.save(owner);
+			return "redirect:/owners";
+
+		}
 	}
 
 	

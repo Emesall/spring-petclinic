@@ -51,7 +51,7 @@
 						<span>Owners</span>
 					</li>
 					
-					<li
+					<li sec:authorize="!hasRole('ROLE_ADMIN')"
 						th:replace="~{fragments/menuItem::menuItem ('/owners','account','account','search','Account')}">
 						<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
 						<span>Account</span>

@@ -6,7 +6,7 @@
 
   <h2>Find Owners</h2>
 
-  <form th:object="${owner}" th:action="@{/owners}" method="get"
+  <form th:object="${owner}" th:action="@{/admin/owners}" method="get"
     class="form-horizontal" id="search-owner-form" >
     <div class="form-group">
       <div class="control-group" id="lastNameGroup">
@@ -30,7 +30,7 @@
   </form>
 
   <br />
-  <a class="btn btn-default" th:href="@{/owners/new}">Add Owner</a>
+  <a class="btn btn-default" th:href="@{/admin/owners/new}">Add Owner</a>
 
 </body>
 </html>

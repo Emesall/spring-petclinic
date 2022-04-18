@@ -8,6 +8,7 @@ import javax.persistence.DiscriminatorType;
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.validation.constraints.NotBlank;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -28,15 +29,19 @@ public class Person extends BaseEntity implements UserDetails {
 
 	private static final long serialVersionUID = -5207483840515216508L;
 
+	@NotBlank
 	@Column(name = "username")
 	private String username;
 
+	@NotBlank
 	@Column(name = "password")
 	private String password;
 
+	@NotBlank
 	@Column(name = "first_name")
 	private String firstName;
 
+	@NotBlank
 	@Column(name = "last_name")
 	private String lastName;
 
