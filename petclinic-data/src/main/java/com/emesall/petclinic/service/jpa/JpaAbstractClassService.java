@@ -4,10 +4,12 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.emesall.petclinic.model.BaseEntity;
 import com.emesall.petclinic.service.CrudService;
+import com.emesall.petclinic.exceptions.NotFoundException;
 
 public abstract class JpaAbstractClassService<T extends BaseEntity, R extends JpaRepository<T, ID>,ID> implements CrudService<T, ID>{
 
@@ -21,7 +23,7 @@ public abstract class JpaAbstractClassService<T extends BaseEntity, R extends Jp
 	}
 
 	public T findById(ID id) {
-		return repository.findById(id).orElseThrow(()->new RuntimeException("Object not found"));
+		return repository.findById(id).orElseThrow(()->new NotFoundException("Object not found"));
 	}
 
 	public T save(T object) {

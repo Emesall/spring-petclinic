@@ -37,7 +37,7 @@ public class AdminController {
 		dataBinder.setDisallowedFields("id");
 	}
 
-	
+
 	@GetMapping("/owners/find")
 	public String findOwners(Model model) {
 		model.addAttribute("owner", Owner.builder().build());

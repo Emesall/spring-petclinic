@@ -18,6 +18,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	private UserDetailsService detailsService;
+	
 
 	@Autowired
 	public SecurityConfig(@Qualifier("jpaPersonService") UserDetailsService detailsService) {
@@ -30,6 +31,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		return new BCryptPasswordEncoder();
 
 	}
+	
+	@Bean
+	public CustomAccessDeniedHandler deniedHandler() {
+		return new CustomAccessDeniedHandler();
+
+	}
+	
+	
 
 	@Override
 	public void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -56,7 +65,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 					.hasRole("OWNER")
 					.antMatchers("/vets/**")
 					.hasAnyRole("VET","OWNER")
-					
+				.and()
+					.exceptionHandling()
+					.accessDeniedHandler(deniedHandler())
 				.and()
 					.formLogin()
 					.loginPage("/login")
