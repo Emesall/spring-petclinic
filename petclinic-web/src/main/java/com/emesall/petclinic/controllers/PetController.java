@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.emesall.petclinic.exceptions.NotFoundException;
 import com.emesall.petclinic.model.Owner;
 import com.emesall.petclinic.model.Pet;
 import com.emesall.petclinic.model.PetType;
@@ -84,9 +85,12 @@ public class PetController {
 	}
 
 	@GetMapping("/pets/{petId}/edit")
-	public String initUpdateForm(@PathVariable Long petId, Model model) {
-		
-		model.addAttribute("pet", petService.findById(petId));
+	public String initUpdateForm(@PathVariable Long petId, Model model, @PathVariable("ownerId") Long ownerId) {
+		Pet pet = petService.findById(petId);
+		if (!pet.getOwner().getId().equals(ownerId)) {
+			throw new NotFoundException("Pet not Found");
+		}	
+		model.addAttribute("pet", pet);
 		return VIEWS_PETS_CREATE_OR_UPDATE_FORM;
 	}
 

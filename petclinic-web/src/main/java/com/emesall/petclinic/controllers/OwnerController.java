@@ -43,19 +43,19 @@ public class OwnerController {
 		return "owners/showOwner";
 	}
 	
-	@GetMapping("/{id}/edit")
-	public String initEditOwnerForm(Model model, @PathVariable Long id) {
-		model.addAttribute("owner", ownerService.findById(id));
+	@GetMapping("/edit")
+	public String initEditOwnerForm(Model model, @AuthenticationPrincipal Owner owner) {
+		model.addAttribute("owner", ownerService.findById(owner.getId()));
 		return "owners/createOrUpdateOwnerForm";
 	}
 
-	@PostMapping("/{id}/edit")
-	public String processEditOwnerForm(@Valid Owner owner, BindingResult bindingResult, @PathVariable Long id) {
+	@PostMapping("/edit")
+	public String processEditOwnerForm(@Valid Owner owner, BindingResult bindingResult, @AuthenticationPrincipal Owner auth_owner) {
 
 		if (bindingResult.hasErrors()) {
 			return "owners/createOrUpdateOwnerForm";
 		} else {
-			owner.setId(id);
+			owner.setId(auth_owner.getId());
 			ownerService.save(owner);
 			return "redirect:/owners";
 
