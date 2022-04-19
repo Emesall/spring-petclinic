@@ -63,7 +63,7 @@ public class AdminController {
 		} else if (results.size() == 1) {
 			// 1 owner found
 			owner = results.get(0);
-			return "redirect:/owners/" + owner.getId();
+			return "redirect:/admin/owners/" + owner.getId();
 		} else {
 			// multiple owners found
 			model.addAttribute("selections", results);
@@ -71,32 +71,32 @@ public class AdminController {
 		}
 	}
 
-	@GetMapping("owners/new")
+	@GetMapping("/owners/new")
 	public String initNewOwnerForm(Model model) {
 		model.addAttribute("owner", Owner.builder().build());
 		return "owners/createOrUpdateOwnerForm";
 	}
 
-	@PostMapping("owners/new")
+	@PostMapping("/owners/new")
 	public String processNewOwnerForm(@Valid @ModelAttribute Owner owner, BindingResult bindingResult) {
 
 		if (bindingResult.hasErrors()) {
 			return "owners/createOrUpdateOwnerForm";
 		} else {
 			Owner savedOwner=ownerService.save(owner);
-			return "redirect:/owners/" + savedOwner.getId();
+			return "redirect:/admin/owners/" + savedOwner.getId();
 
 		}
 
 	}
 
-	@GetMapping("owners/{id}/edit")
+	@GetMapping("/owners/{id}/edit")
 	public String initEditOwnerForm(Model model, @PathVariable Long id) {
 		model.addAttribute("owner", ownerService.findById(id));
 		return "owners/createOrUpdateOwnerForm";
 	}
 
-	@PostMapping("owners/{id}/edit")
+	@PostMapping("/owners/{id}/edit")
 	public String processEditOwnerForm(@Valid Owner owner, BindingResult bindingResult, @PathVariable Long id) {
 
 		if (bindingResult.hasErrors()) {
@@ -110,7 +110,7 @@ public class AdminController {
 		}
 	}
 	
-	@GetMapping("owners/{id}")
+	@GetMapping("/owners/{id}")
 	public ModelAndView showOwner(@PathVariable Long id) {
 
 		ModelAndView mav = new ModelAndView("admin/ownerDetails");
