@@ -27,7 +27,7 @@ import com.emesall.petclinic.service.VisitService;
 class VisitControllerTest {
 
 	private static final String PETS_CREATE_OR_UPDATE_VISIT_FORM = "pets/createOrUpdateVisitForm";
-	private static final String REDIRECT_OWNERS_1 = "redirect:/owners/{ownerId}";
+	private static final String REDIRECT_OWNERS_1 = "redirect:/admin/owners/{ownerId}";
 
 	@Mock
 	PetService petService;
@@ -40,15 +40,14 @@ class VisitControllerTest {
 
 	private MockMvc mockMvc;
 
-	private final URI visitsUri = URI.create("/owners/1/pets/1/visits/new");
-/*
+	private final URI visitsUri = URI.create("/admin/owners/1/pets/1/visits/new");
+
 	@BeforeEach
 	void setUp() {
 		MockitoAnnotations.openMocks(this);
 		mockMvc = MockMvcBuilders.standaloneSetup(visitController).build();
 
 		Long petId = 1L;
-		Long ownerId = 1L;
 		Pet pet = new Pet();
 		pet.setId(petId);
 		pet.setBirthDate(LocalDate.of(2018, 11, 13));
@@ -74,5 +73,5 @@ class VisitControllerTest {
 				.andExpect(view().name(REDIRECT_OWNERS_1))
 				.andExpect(model().attributeExists("visit"));
 	}
-*/
+
 }

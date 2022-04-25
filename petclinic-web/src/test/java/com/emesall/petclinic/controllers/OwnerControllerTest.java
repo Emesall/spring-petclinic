@@ -1,38 +1,48 @@
 package com.emesall.petclinic.controllers;
 
-import static org.hamcrest.CoreMatchers.equalToObject;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
+import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.http.MediaType;
-import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.ui.Model;
+import org.springframework.web.context.WebApplicationContext;
 
 import com.emesall.petclinic.model.Owner;
+import com.emesall.petclinic.model.Vet;
 import com.emesall.petclinic.service.OwnerService;
 
+@ExtendWith(SpringExtension.class)
+@SpringBootTest
 class OwnerControllerTest {
 
-	private static final String LASTNAME = "test";
+	private static final String LASTNAME = "lastName";
 
 	private static final long ID = 1L;
 
-	@InjectMocks
-	OwnerController ownerController;
+	private static final String FIRSTNAME = "firstName";
+
+	private static final String USERNAME = "username";
+
+	private static final String PASSWORD = "password";
+
+	@Autowired
+	WebApplicationContext context;
 
 	MockMvc mockMvc;
 
@@ -42,72 +52,70 @@ class OwnerControllerTest {
 	@Mock
 	Model model;
 
+	Owner owner;
+
+	Vet vet;
+
 	@BeforeEach
 	void setUp() throws Exception {
 		MockitoAnnotations.openMocks(this);
-		mockMvc = MockMvcBuilders.standaloneSetup(ownerController).build();
+		mockMvc = MockMvcBuilders.webAppContextSetup(context).apply(springSecurity()).build();
+		owner = Owner.builder()
+				.id(ID)
+				.username(USERNAME)
+				.password(PASSWORD)
+				.firstName(FIRSTNAME)
+				.lastName(LASTNAME)
+				.build();
+		vet = Vet.builder()
+				.id(ID)
+				.username(USERNAME)
+				.password(PASSWORD)
+				.firstName(FIRSTNAME)
+				.lastName(LASTNAME)
+				.build();
 
 	}
-	/*
-	 * that way you can test multiple sources
-	 * 
-	 * @ParameterizedTest
-	 * 
-	 * @ValueSource(strings = {"/owners", "/owners/index",
-	 * "/owners/index.html","/owners/find"})
-	 */
-/*
+
 	@Test
-	@WithMockUser("owner1")  
 	void showAccount() throws Exception {
-		// given
-		Owner owner = Owner.builder()
-				.id(1l)
-				.username("user")
-				.password("pass")
-				.firstName("first")
-				.lastName("last")
-				.build();
-		when(ownerService.findById(anyLong())).thenReturn(owner);
-		// then
-		mockMvc.perform(get("/owners"))
+
+		mockMvc.perform(get("/owners").with(user(owner)))
 				.andExpect(status().isOk())
 				.andExpect(view().name("owners/showOwner"))
 				.andExpect(model().attributeExists("owner"));
-				//.andExpect(model().attribute("owner", equalToObject(owner)));
 	}
 
-	
+	@Test
+	void showAccountNoAuthorization() throws Exception {
+
+		mockMvc.perform(get("/owners").with(user(vet))).andExpect(status().isFound()).andExpect(redirectedUrl("/403"));
+	}
+
 	@Test
 	void initEditOwnerForm() throws Exception {
-		// given
-		Owner owner = Owner.builder().id(ID).lastName(LASTNAME).build();
-		when(ownerService.findById(anyLong())).thenReturn(owner);
 
-		// then
-		mockMvc.perform(get("/owners/1/edit"))
+		mockMvc.perform(get("/owners/edit").with(user(owner)))
 				.andExpect(status().isOk())
 				.andExpect(view().name("owners/createOrUpdateOwnerForm"))
-				.andExpect(model().attributeExists("owner"))
-				.andExpect(model().attribute("owner", equalToObject(owner)));
-
-		verify(ownerService).findById(anyLong());
+				.andExpect(model().attributeExists("owner"));
 
 	}
 
 	@Test
 	void processEditOwnerForm() throws Exception {
-		// given
-		Owner owner = Owner.builder().id(ID).lastName(LASTNAME).build();
-		when(ownerService.save(any(Owner.class))).thenReturn(owner);
 		// then
-		mockMvc.perform(post("/owners/1/edit").contentType(MediaType.APPLICATION_FORM_URLENCODED))
+		mockMvc.perform(post("/owners/edit").with(user(owner))
+				.with(csrf())
+				.param("firstName", FIRSTNAME)
+				.param("lastName", LASTNAME)
+				.param("username", USERNAME)
+				.param("password", PASSWORD))
 				.andExpect(status().is3xxRedirection())
-				.andExpect(view().name("redirect:/owners/" + ID))
-				.andExpect(model().attributeExists("owner"));
-
-		verify(ownerService).save(any(Owner.class));
+				.andExpect(view().name("redirect:/owners"));
+		
+	
 
 	}
-*/
+
 }

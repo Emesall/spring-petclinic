@@ -26,7 +26,7 @@ import org.springframework.web.context.WebApplicationContext;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
-public class SecurityIntegrationTest {
+public class LoginRegisterIntegrationTest {
 
 	@Autowired
 	private WebApplicationContext context;
@@ -37,37 +37,29 @@ public class SecurityIntegrationTest {
 	void setUp() throws Exception {
 		mockMvc = MockMvcBuilders.webAppContextSetup(context).apply(springSecurity()).build();
 	}
-/*
+
 	@Test
 	public void registerWithInvalidCSRF() throws Exception {
 		mockMvc.perform(post("/register/owner").contentType(MediaType.APPLICATION_FORM_URLENCODED)
-				.param("username", "owner")
-				.param("password", "owner")
+				.param("username", "owner3")
+				.param("password", "owner3")
+				.param("matchingPassword", "owner3")
+				.param("firstName", "owner3")
+				.param("lastName", "owner3")
 				.with(anonymous())
-				.with(csrf().useInvalidToken())).andExpect(status().isForbidden());
+				.with(csrf().useInvalidToken())).andExpect(status().isFound()).andExpect(redirectedUrl("/403"));
 	}
 
 	@Test
 	public void registerWithCSRF() throws Exception {
 		mockMvc.perform(post("/register/owner").contentType(MediaType.APPLICATION_FORM_URLENCODED)
-				.param("username", "owner2")
-				.param("password", "owner2")
+				.param("username", "owner3")
+				.param("password", "owner3")
+				.param("matchingPassword", "owner3")
+				.param("firstName", "owner3")
+				.param("lastName", "owner3")
 				.with(anonymous())
-				.with(csrf())).andExpect(status().is3xxRedirection()).andExpect(redirectedUrl("/login"));
-	}
-
-	@Test
-	@WithMockUser(username = "admin")
-	public void accessOwnerNotAuthenticated() throws Exception {
-		mockMvc.perform(get("/owners/find").contentType(MediaType.APPLICATION_FORM_URLENCODED))
-				.andExpect(status().isForbidden());
-	}
-
-	@Test
-	@WithMockUser(username = "owner", roles = "OWNER")
-	public void accessOwnerAuthenticated() throws Exception {
-		mockMvc.perform(get("/owners/find").contentType(MediaType.APPLICATION_FORM_URLENCODED))
-				.andExpect(status().isOk());
+				.with(csrf())).andExpect(status().is3xxRedirection()).andExpect(redirectedUrl("/login?registered"));
 	}
 
 	@Test
@@ -86,5 +78,5 @@ public class SecurityIntegrationTest {
 	public void logoutSuccessful() throws Exception {
 		mockMvc.perform(logout()).andExpect(unauthenticated());
 	}
-*/
+
 }

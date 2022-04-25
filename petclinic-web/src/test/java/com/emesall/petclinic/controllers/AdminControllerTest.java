@@ -1,7 +1,9 @@
 package com.emesall.petclinic.controllers;
 
 import static org.hamcrest.CoreMatchers.equalToObject;
-import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
@@ -30,14 +32,23 @@ import com.emesall.petclinic.service.OwnerService;
 
 class AdminControllerTest {
 
-	private static final String LASTNAME = "test";
+	private static final String LASTNAME = "lastName";
 
 	private static final long ID = 1L;
 
+	private static final String FIRSTNAME = "firstName";
+
+	private static final String USERNAME = "username";
+
+	private static final String PASSWORD = "password";
+
 	@InjectMocks
-	OwnerController ownerController;
+	AdminController adminController;
 
 	MockMvc mockMvc;
+
+	@Mock
+	ExceptionHandlingController exceptionHandlingController;
 
 	@Mock
 	OwnerService ownerService;
@@ -48,7 +59,9 @@ class AdminControllerTest {
 	@BeforeEach
 	void setUp() throws Exception {
 		MockitoAnnotations.openMocks(this);
-		mockMvc = MockMvcBuilders.standaloneSetup(ownerController).build();
+		mockMvc = MockMvcBuilders.standaloneSetup(adminController)
+				.setControllerAdvice(exceptionHandlingController)
+				.build();
 
 	}
 	/*
@@ -59,25 +72,25 @@ class AdminControllerTest {
 	 * @ValueSource(strings = {"/owners", "/owners/index",
 	 * "/owners/index.html","/owners/find"})
 	 */
-/*
+
 	@Test
 	void showOwner() throws Exception {
 		// given
 		Owner owner = Owner.builder().id(1l).build();
 		when(ownerService.findById(anyLong())).thenReturn(owner);
 		// then
-		mockMvc.perform(get("/admin/owners/123"))
+		mockMvc.perform(get("/admin/owners/1"))
 				.andExpect(status().isOk())
-				.andExpect(view().name("owners/ownerDetails"))
+				.andExpect(view().name("admin/ownerDetails"))
 				.andExpect(model().attribute("owner", equalToObject(owner)));
 	}
 
 	@Test
 	void findOwners() throws Exception {
 
-		mockMvc.perform(get("/owners/find"))
+		mockMvc.perform(get("/admin/owners/find"))
 				.andExpect(status().isOk())
-				.andExpect(view().name("owners/findOwners"))
+				.andExpect(view().name("admin/findOwners"))
 				.andExpect(model().attributeExists("owner"));
 	}
 
@@ -89,9 +102,9 @@ class AdminControllerTest {
 		when(ownerService.findByLastName(anyString())).thenReturn(owners);
 
 		// then
-		mockMvc.perform(get("/owners"))
+		mockMvc.perform(get("/admin/owners"))
 				.andExpect(status().is3xxRedirection())
-				.andExpect(view().name("redirect:/owners/1"));
+				.andExpect(view().name("redirect:/admin/owners/" + ID));
 
 	}
 
@@ -104,9 +117,9 @@ class AdminControllerTest {
 		when(ownerService.findByLastName(anyString())).thenReturn(owners);
 
 		// then
-		mockMvc.perform(get("/owners"))
+		mockMvc.perform(get("/admin/owners"))
 				.andExpect(status().isOk())
-				.andExpect(view().name("owners/ownersList"))
+				.andExpect(view().name("admin/ownersList"))
 				.andExpect(model().attributeExists("selections"))
 				.andExpect(model().attribute("selections", equalToObject(owners)));
 	}
@@ -118,20 +131,20 @@ class AdminControllerTest {
 		when(ownerService.findByLastName(anyString())).thenReturn(Collections.emptyList());
 
 		// then
-		mockMvc.perform(get("/owners"))
+		mockMvc.perform(get("/admin/owners"))
 				.andExpect(status().isOk())
-				.andExpect(view().name("owners/findOwners"))
+				.andExpect(view().name("admin/findOwners"))
 				.andExpect(model().attributeExists("owner"));
 	}
 
 	@Test
 	void initNewOwnerForm() throws Exception {
 		// then
-		mockMvc.perform(get("/owners/new"))
+		mockMvc.perform(get("/admin/owners/new"))
 				.andExpect(status().isOk())
 				.andExpect(view().name("owners/createOrUpdateOwnerForm"))
 				.andExpect(model().attributeExists("owner"));
-		
+
 		verifyNoInteractions(ownerService);
 
 	}
@@ -140,16 +153,50 @@ class AdminControllerTest {
 	void processNewOwnerForm() throws Exception {
 
 		// given
-		Owner owner = Owner.builder().id(ID).lastName(LASTNAME).build();
+		Owner owner = Owner.builder()
+				.id(ID)
+				.lastName(LASTNAME)
+				.firstName(FIRSTNAME)
+				.username(USERNAME)
+				.password(PASSWORD)
+				.build();
 		when(ownerService.save(any(Owner.class))).thenReturn(owner);
 
 		// then
-		mockMvc.perform(post("/owners/new").contentType(MediaType.APPLICATION_FORM_URLENCODED))
+		mockMvc.perform(post("/admin/owners/new").contentType(MediaType.APPLICATION_FORM_URLENCODED)
+				.param("firstName", FIRSTNAME)
+				.param("lastName", LASTNAME)
+				.param("username", USERNAME)
+				.param("password", PASSWORD))
 				.andExpect(status().is3xxRedirection())
-				.andExpect(view().name("redirect:/owners/" + ID))
+				.andExpect(view().name("redirect:/admin/owners/" + ID))
 				.andExpect(model().attributeExists("owner"));
-		
+
 		verify(ownerService).save(any(Owner.class));
+
+	}
+
+	@Test
+	void processNewOwnerFormBindingFault() throws Exception {
+
+		// given
+		Owner owner = Owner.builder()
+				.id(ID)
+				.lastName(LASTNAME)
+				.firstName(FIRSTNAME)
+				.username(USERNAME)
+				.password(PASSWORD)
+				.build();
+		when(ownerService.save(any(Owner.class))).thenReturn(owner);
+
+		// then
+		mockMvc.perform(post("/admin/owners/new").contentType(MediaType.APPLICATION_FORM_URLENCODED)
+				.param("firstName", FIRSTNAME))
+				.andExpect(status().isOk())
+				.andExpect(view().name("owners/createOrUpdateOwnerForm"))
+				.andExpect(model().attributeExists("owner"));
+
+		verifyNoInteractions(ownerService);
 
 	}
 
@@ -160,12 +207,12 @@ class AdminControllerTest {
 		when(ownerService.findById(anyLong())).thenReturn(owner);
 
 		// then
-		mockMvc.perform(get("/owners/1/edit"))
+		mockMvc.perform(get("/admin/owners/1/edit"))
 				.andExpect(status().isOk())
 				.andExpect(view().name("owners/createOrUpdateOwnerForm"))
 				.andExpect(model().attributeExists("owner"))
 				.andExpect(model().attribute("owner", equalToObject(owner)));
-		
+
 		verify(ownerService).findById(anyLong());
 
 	}
@@ -176,13 +223,17 @@ class AdminControllerTest {
 		Owner owner = Owner.builder().id(ID).lastName(LASTNAME).build();
 		when(ownerService.save(any(Owner.class))).thenReturn(owner);
 		// then
-		mockMvc.perform(post("/owners/1/edit").contentType(MediaType.APPLICATION_FORM_URLENCODED))
+		mockMvc.perform(post("/admin/owners/1/edit").contentType(MediaType.APPLICATION_FORM_URLENCODED)
+				.param("firstName", FIRSTNAME)
+				.param("lastName", LASTNAME)
+				.param("username", USERNAME)
+				.param("password", PASSWORD))
 				.andExpect(status().is3xxRedirection())
-				.andExpect(view().name("redirect:/owners/" + ID))
+				.andExpect(view().name("redirect:/admin/owners/" + ID))
 				.andExpect(model().attributeExists("owner"));
-		
+
 		verify(ownerService).save(any(Owner.class));
 
 	}
-*/
+
 }

@@ -16,7 +16,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.emesall.petclinic.model.Owner;
 import com.emesall.petclinic.model.RegistrationForm;
 import com.emesall.petclinic.service.OwnerService;
-import com.emesall.petclinic.service.VetService;
 
 @Controller
 @RequestMapping("/register")
@@ -24,14 +23,12 @@ public class RegistrationController {
 
 	private static final String OWNER_REGISTER_FORM = "owners/registerForm";
 	private final OwnerService ownerService;
-	private final VetService vetService;
 	private final PasswordEncoder encoder;
 
 	@Autowired
-	public RegistrationController(OwnerService ownerService, VetService vetService, PasswordEncoder encoder) {
+	public RegistrationController(OwnerService ownerService, PasswordEncoder encoder) {
 		super();
 		this.ownerService = ownerService;
-		this.vetService = vetService;
 		this.encoder = encoder;
 	}
 

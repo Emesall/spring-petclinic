@@ -66,6 +66,7 @@ class PetControllerTest {
 		owner = Owner.builder().id(ID).lastName(NAME).build();
 		pet.setId(ID);
 		pet.setName(NAME);
+		pet.setOwner(owner);
 
 		// prepare for all tests
 		when(petService.save(any(Pet.class))).thenReturn(pet);
@@ -73,11 +74,11 @@ class PetControllerTest {
 		when(petTypeService.findAll()).thenReturn(petTypes);
 		when(petService.findById(anyLong())).thenReturn(pet);
 	}
-/*
+
 	@Test
 	void testInitCreationForm() throws Exception {
 
-		mockMvc.perform(get("/owners/1/pets/new"))
+		mockMvc.perform(get("/admin/owners/1/pets/new"))
 				.andExpect(status().isOk())
 				.andExpect(view().name("pets/createOrUpdatePetForm"))
 				.andExpect(model().attributeExists("pet"));
@@ -90,9 +91,9 @@ class PetControllerTest {
 	void testProcessCreationForm() throws Exception {
 
 		// then
-		mockMvc.perform(post("/owners/1/pets/new"))
+		mockMvc.perform(post("/admin/owners/1/pets/new"))
 				.andExpect(status().is3xxRedirection())
-				.andExpect(view().name("redirect:/owners/1"))
+				.andExpect(view().name("redirect:/admin/owners/1"))
 				.andExpect(model().attributeExists("pet"));
 
 		verifyAllModelAttributes();
@@ -101,7 +102,7 @@ class PetControllerTest {
 
 	@Test
 	void testInitUpdateForm() throws Exception {
-		mockMvc.perform(get("/owners/1/pets/1/edit"))
+		mockMvc.perform(get("/admin/owners/1/pets/1/edit"))
 				.andExpect(status().isOk())
 				.andExpect(view().name("pets/createOrUpdatePetForm"))
 				.andExpect(model().attributeExists("pet"));
@@ -113,9 +114,9 @@ class PetControllerTest {
 	@Test
 	void testProcessUpdateForm() throws Exception {
 		// then
-		mockMvc.perform(post("/owners/1/pets/1/edit"))
+		mockMvc.perform(post("/admin/owners/1/pets/1/edit"))
 				.andExpect(status().is3xxRedirection())
-				.andExpect(view().name("redirect:/owners/1"))
+				.andExpect(view().name("redirect:/admin/owners/1"))
 				.andExpect(model().attributeExists("pet"));
 
 		verifyAllModelAttributes();
@@ -126,5 +127,5 @@ class PetControllerTest {
 		verify(ownerService).findById(anyLong());
 		verify(petTypeService, times(1)).findAll();
 	}
-*/
+
 }
