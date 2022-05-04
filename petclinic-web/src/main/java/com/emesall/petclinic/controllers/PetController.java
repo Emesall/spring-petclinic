@@ -104,7 +104,7 @@ public class PetController {
 			model.addAttribute("pet", pet);
 			return VIEWS_PETS_CREATE_OR_UPDATE_FORM;
 		} else {
-
+			pet.setImage(petService.findById(pet.getId()).getImage());
 			petService.save(pet);
 			return "redirect:/admin/owners/" + owner.getId();
 		}
