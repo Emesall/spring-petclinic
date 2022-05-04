@@ -71,6 +71,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.hasRole("OWNER")
 				.antMatchers("/vets/**")
 				.hasAnyRole("VET", "OWNER")
+				.antMatchers("/pets/**")
+				.hasAnyRole("ADMIN", "OWNER")
 				.and()
 				.exceptionHandling()
 				.accessDeniedHandler(deniedHandler())

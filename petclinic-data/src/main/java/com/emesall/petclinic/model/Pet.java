@@ -8,6 +8,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -42,6 +43,9 @@ public class Pet extends BaseEntity {
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	@Column(name = "birth_date")
 	private LocalDate birthDate;
+	
+	@Lob
+	private byte[] image;
 
 	@OneToMany(cascade = CascadeType.ALL ,mappedBy = "pet")
 	private Set<Visit> visits = new HashSet<Visit>();
