@@ -1,5 +1,6 @@
 package com.emesall.petclinic.model;
 
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -14,6 +15,9 @@ public class RegistrationForm {
 
 	@NotBlank
 	private String username;
+	
+	@Email(regexp = ".+@.+\\..+")
+    private String email;
 
 	@NotBlank
 	private String password;
@@ -33,6 +37,7 @@ public class RegistrationForm {
 
 	public Owner DataToOwner(PasswordEncoder passwordEncoder) {
 		return Owner.builder()
+				.email(email)
 				.username(username)
 				.password(passwordEncoder.encode(password))
 				.firstName(firstName)

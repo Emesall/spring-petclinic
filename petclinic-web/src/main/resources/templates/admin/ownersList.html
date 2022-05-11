@@ -22,6 +22,7 @@
               <td>
                   <a th:href="@{/admin/owners/__${owner.id}__}" th:text="${owner.username}"/></a>
               </td>
+              <td th:text="${owner.email}"/>
               <td th:text="${owner.firstName + ' ' + owner.lastName}"/>
               <td th:text="${owner.address}"/>
               <td th:text="${owner.city}"/>

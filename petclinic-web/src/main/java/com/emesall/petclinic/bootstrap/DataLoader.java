@@ -86,6 +86,7 @@ public class DataLoader implements CommandLineRunner {
 		specialityService.save(dentistry);
 
 		Owner owner1 = Owner.builder()
+				.email("owner1@mail.com")
 				.username("owner1")
 				.password(encoder.encode("owner1"))
 				.firstName("Michael")
@@ -111,6 +112,7 @@ public class DataLoader implements CommandLineRunner {
 	
 
 		Owner owner2 = new Owner();
+		owner2.setEmail("owner2@mail.com");
 		owner2.setUsername("owner2");
 		owner2.setPassword(encoder.encode("owner2"));
 		owner2.setFirstName("Fiona");
@@ -146,6 +148,7 @@ public class DataLoader implements CommandLineRunner {
 		System.out.println("Loaded Owners....");
 
 		Vet vet1 = new Vet();
+		vet1.setEmail("vet1@mail.com");
 		vet1.setUsername("vet1");
 		vet1.setPassword(encoder.encode("vet1"));
 		vet1.setFirstName("Sam");
@@ -155,6 +158,7 @@ public class DataLoader implements CommandLineRunner {
 		vetService.save(vet1);
 
 		Vet vet2 = new Vet();
+		vet2.setEmail("vet2@mail.com");
 		vet2.setUsername("vet2");
 		vet2.setPassword(encoder.encode("vet2"));
 		vet2.setFirstName("Jessie");
@@ -167,8 +171,8 @@ public class DataLoader implements CommandLineRunner {
 	}
 
 	private void loadAdmins() {
-		Admin admin1 = Admin.builder().username("panda").password(encoder.encode("piu")).firstName("admin1").lastName("admin1").build();
-		Admin admin2 = Admin.builder().username("kot").password(encoder.encode("dziab")).firstName("admin2").lastName("admin2").build();
+		Admin admin1 = Admin.builder().email("panda@mail.com").username("panda").password(encoder.encode("piu")).firstName("admin1").lastName("admin1").build();
+		Admin admin2 = Admin.builder().email("kot@mail.com").username("kot").password(encoder.encode("dziab")).firstName("admin2").lastName("admin2").build();
 		adminService.save(admin1);
 		adminService.save(admin2);
 

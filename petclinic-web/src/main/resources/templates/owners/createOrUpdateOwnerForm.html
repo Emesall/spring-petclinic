@@ -10,6 +10,9 @@
 		<div class="form-group has-feedback">
 		<input type="hidden" th:field="*{password}"/>
 		<input sec:authorize="!hasRole('ROLE_ADMIN')" type="hidden" th:field="*{username}"/>
+		<input sec:authorize="!hasRole('ROLE_ADMIN')" type="hidden" th:field="*{email}"/>
+		<input sec:authorize="hasRole('ROLE_ADMIN')"
+				th:replace="~{fragments/inputField :: input ('Email', 'email', 'text')}" />
 		<input sec:authorize="hasRole('ROLE_ADMIN')"
 				th:replace="~{fragments/inputField :: input ('Username', 'username', 'text')}" />
 			<input

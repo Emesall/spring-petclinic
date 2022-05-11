@@ -30,6 +30,10 @@ public class Person extends BaseEntity implements UserDetails {
 	private static final long serialVersionUID = -5207483840515216508L;
 
 	@NotBlank
+	@Column(name = "email")
+	private String email;
+	
+	@NotBlank
 	@Column(name = "username")
 	private String username;
 
