@@ -20,7 +20,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	private UserDetailsService detailsService;
 	private AuthenticationSuccessHandler successHandler;
-	
 
 	@Autowired
 	public SecurityConfig(@Qualifier("jpaPersonService") UserDetailsService detailsService,
@@ -35,13 +34,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		return new BCryptPasswordEncoder();
 
 	}
-	
-	
-	
 
 	@Bean
 	public CustomAccessDeniedHandler deniedHandler() {
-		
+
 		return new CustomAccessDeniedHandler();
 
 	}
@@ -82,10 +78,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.successHandler(successHandler)
 				// .defaultSuccessUrl("/",true)
 				.and()
-				.logout();
+				.logout()
+				.deleteCookies("JSESSIONID")
+
+				.and()
+				.rememberMe()
+				.key("uniqueAndSecret");
 
 	}
-
-	
 
 }
