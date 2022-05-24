@@ -7,7 +7,6 @@ import static org.springframework.security.test.web.servlet.request.SecurityMock
 import static org.springframework.security.test.web.servlet.response.SecurityMockMvcResultMatchers.authenticated;
 import static org.springframework.security.test.web.servlet.response.SecurityMockMvcResultMatchers.unauthenticated;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -18,7 +17,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -53,6 +51,7 @@ public class LoginRegisterIntegrationTest {
 	@Test
 	public void registerWithCSRF() throws Exception {
 		mockMvc.perform(post("/register/owner").contentType(MediaType.APPLICATION_FORM_URLENCODED)
+				.param("email", "email@email.com")
 				.param("username", "owner3")
 				.param("password", "owner3")
 				.param("matchingPassword", "owner3")
@@ -69,7 +68,7 @@ public class LoginRegisterIntegrationTest {
 
 	@Test
 	public void loginSuccesful() throws Exception {
-		mockMvc.perform(formLogin().user("owner1").password("owner1"))
+		mockMvc.perform(formLogin().user("panda").password("piu"))
 				.andExpect(status().is3xxRedirection())
 				.andExpect(authenticated());
 	}

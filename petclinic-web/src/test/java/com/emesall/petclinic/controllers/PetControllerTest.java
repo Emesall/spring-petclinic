@@ -67,12 +67,14 @@ class PetControllerTest {
 		pet.setId(ID);
 		pet.setName(NAME);
 		pet.setOwner(owner);
+		pet.setImage("dsdsf1f1f1f1".getBytes());
 
 		// prepare for all tests
 		when(petService.save(any(Pet.class))).thenReturn(pet);
 		when(ownerService.findById(anyLong())).thenReturn(owner);
 		when(petTypeService.findAll()).thenReturn(petTypes);
 		when(petService.findById(anyLong())).thenReturn(pet);
+
 	}
 
 	@Test
@@ -114,7 +116,7 @@ class PetControllerTest {
 	@Test
 	void testProcessUpdateForm() throws Exception {
 		// then
-		mockMvc.perform(post("/admin/owners/1/pets/1/edit"))
+		mockMvc.perform(post("/admin/owners/1/pets/1/edit").flashAttr("pet", pet))
 				.andExpect(status().is3xxRedirection())
 				.andExpect(view().name("redirect:/admin/owners/1"))
 				.andExpect(model().attributeExists("pet"));
@@ -122,7 +124,7 @@ class PetControllerTest {
 		verifyAllModelAttributes();
 		verify(petService).save(any(Pet.class));
 	}
-	
+
 	private void verifyAllModelAttributes() {
 		verify(ownerService).findById(anyLong());
 		verify(petTypeService, times(1)).findAll();

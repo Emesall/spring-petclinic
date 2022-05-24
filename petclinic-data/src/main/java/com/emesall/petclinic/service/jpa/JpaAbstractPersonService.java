@@ -8,6 +8,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import com.emesall.petclinic.model.Person;
+import com.emesall.petclinic.model.VerificationToken;
 import com.emesall.petclinic.repository.PersonRepository;
 import com.emesall.petclinic.service.PersonService;
 
@@ -44,6 +45,7 @@ public abstract class JpaAbstractPersonService<T extends Person> extends JpaAbst
 
 		return false;
 	}
-
+	
+	
 
 }

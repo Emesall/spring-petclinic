@@ -15,13 +15,11 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
 @SuperBuilder
-@NoArgsConstructor
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "Type", discriminatorType = DiscriminatorType.STRING)
@@ -48,7 +46,16 @@ public class Person extends BaseEntity implements UserDetails {
 	@NotBlank
 	@Column(name = "last_name")
 	private String lastName;
+	
+	@Column(name = "enabled")
+	private boolean enabled;
 
+	public Person() {
+        super();
+        this.enabled=false;
+    }
+	
+	
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		return null;
@@ -71,7 +78,7 @@ public class Person extends BaseEntity implements UserDetails {
 
 	@Override
 	public boolean isEnabled() {
-		return true;
+		return enabled;
 	}
 
 }

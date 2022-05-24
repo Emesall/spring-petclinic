@@ -41,6 +41,8 @@ class AdminControllerTest {
 	private static final String USERNAME = "username";
 
 	private static final String PASSWORD = "password";
+	
+	private static final String EMAIL = "email@email.com";
 
 	@InjectMocks
 	AdminController adminController;
@@ -155,6 +157,7 @@ class AdminControllerTest {
 		// given
 		Owner owner = Owner.builder()
 				.id(ID)
+				.email(EMAIL)
 				.lastName(LASTNAME)
 				.firstName(FIRSTNAME)
 				.username(USERNAME)
@@ -164,6 +167,7 @@ class AdminControllerTest {
 
 		// then
 		mockMvc.perform(post("/admin/owners/new").contentType(MediaType.APPLICATION_FORM_URLENCODED)
+				.param("email", EMAIL)
 				.param("firstName", FIRSTNAME)
 				.param("lastName", LASTNAME)
 				.param("username", USERNAME)
@@ -224,6 +228,7 @@ class AdminControllerTest {
 		when(ownerService.save(any(Owner.class))).thenReturn(owner);
 		// then
 		mockMvc.perform(post("/admin/owners/1/edit").contentType(MediaType.APPLICATION_FORM_URLENCODED)
+				.param("email", EMAIL)
 				.param("firstName", FIRSTNAME)
 				.param("lastName", LASTNAME)
 				.param("username", USERNAME)

@@ -40,6 +40,7 @@ class OwnerControllerTest {
 	private static final String USERNAME = "username";
 
 	private static final String PASSWORD = "password";
+	private static final String EMAIL = "email@email.com";
 
 	@Autowired
 	WebApplicationContext context;
@@ -107,14 +108,13 @@ class OwnerControllerTest {
 		// then
 		mockMvc.perform(post("/owners/edit").with(user(owner))
 				.with(csrf())
+				.param("email", EMAIL)
 				.param("firstName", FIRSTNAME)
 				.param("lastName", LASTNAME)
 				.param("username", USERNAME)
 				.param("password", PASSWORD))
 				.andExpect(status().is3xxRedirection())
 				.andExpect(view().name("redirect:/owners"));
-		
-	
 
 	}
 
