@@ -1,6 +1,7 @@
 package com.emesall.petclinic.controllers;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -22,6 +23,7 @@ public class ExceptionHandlingController {
 		mav.setViewName("errorPage");
 		return mav;
 	}
+	
 	
 	@ExceptionHandler(NoHandlerFoundException.class)
 	public ModelAndView handleNotFoundUrl(Exception exception) {

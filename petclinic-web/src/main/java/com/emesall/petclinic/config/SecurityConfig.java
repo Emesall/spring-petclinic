@@ -2,8 +2,10 @@ package com.emesall.petclinic.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
@@ -20,6 +22,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	private UserDetailsService detailsService;
 	private AuthenticationSuccessHandler successHandler;
+	
 
 	@Autowired
 	public SecurityConfig(@Qualifier("jpaPersonService") UserDetailsService detailsService,
@@ -27,6 +30,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		super();
 		this.detailsService = detailsService;
 		this.successHandler = successHandler;
+		
 	}
 
 	@Bean
@@ -34,6 +38,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		return new BCryptPasswordEncoder();
 
 	}
+
 
 	@Bean
 	public CustomAccessDeniedHandler deniedHandler() {
