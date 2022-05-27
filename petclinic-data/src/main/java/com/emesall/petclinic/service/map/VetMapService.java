@@ -6,12 +6,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
+import com.emesall.petclinic.exceptions.NotFoundException;
 import com.emesall.petclinic.model.Vet;
 import com.emesall.petclinic.service.SpecialityService;
 import com.emesall.petclinic.service.VetService;
 
 @Service
-@Profile({"default","map"})
+@Profile({ "default", "map" })
 public class VetMapService extends AbstractClassService<Vet, Long> implements VetService {
 
 	private final SpecialityService specialityService;
@@ -29,7 +30,7 @@ public class VetMapService extends AbstractClassService<Vet, Long> implements Ve
 				object.getSpecialities().forEach(spec ->
 					{
 						specialityService.save(spec);
-					
+
 					});
 			}
 
@@ -43,6 +44,15 @@ public class VetMapService extends AbstractClassService<Vet, Long> implements Ve
 	@Override
 	public List<Vet> findByLastName(String lastName) {
 		return map.values().stream().filter(vet -> vet.getLastName().equals(lastName)).toList();
+	}
+
+	@Override
+	public Vet findByEmail(String email) {
+		return map.values()
+				.stream()
+				.filter(vet -> vet.getEmail().equals(email))
+				.findFirst()
+				.orElseThrow(() -> new NotFoundException("Person with " + email + " not found"));
 	}
 
 	@Override

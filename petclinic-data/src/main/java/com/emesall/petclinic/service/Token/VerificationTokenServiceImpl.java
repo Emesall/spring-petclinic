@@ -1,10 +1,10 @@
-package com.emesall.petclinic.service;
+package com.emesall.petclinic.service.Token;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.emesall.petclinic.model.Owner;
-import com.emesall.petclinic.model.VerificationToken;
+import com.emesall.petclinic.model.Person;
+import com.emesall.petclinic.model.token.VerificationToken;
 import com.emesall.petclinic.repository.VerificationTokenRepository;
 
 @Service
@@ -20,11 +20,10 @@ public class VerificationTokenServiceImpl implements VerificationTokenService {
 	}
 
 	@Override
-	public VerificationToken createAndSaveVerificationToken(Owner owner,String token) {
+	public VerificationToken createAndSaveToken(Person person,String token) {
 		VerificationToken ver_token=new VerificationToken(token);
-		ver_token.setPerson(owner);
+		ver_token.setPerson(person);
 		return save(ver_token);
-		
 	}
 
 	@Override

@@ -15,4 +15,5 @@ public interface PersonRepository<T extends Person> extends JpaRepository<T, Lon
 		//@Query("SELECT o FROM Owner o WHERE UPPER(o.lastName) LIKE UPPER(?1) ")
 		List<T> findByLastNameLikeIgnoreCase(String name);
 		Optional<T> findByUsername(String username);
+		Optional<T> findByEmail(String email);
 }

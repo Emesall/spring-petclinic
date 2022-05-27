@@ -15,6 +15,7 @@
 		You have been logged out.</div>
 	<div th:if="${param.registered}"
 		class="alert alert-success text-center">Successfully registered.</div>
+		
 	<form class="form-horizontal" th:action="@{/login}" method="POST"
 		id="loginForm">
 		<div class="form-group has-feedback">

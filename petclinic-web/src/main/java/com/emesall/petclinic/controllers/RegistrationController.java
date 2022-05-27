@@ -19,9 +19,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.emesall.petclinic.events.OnRegistrationCompleteEvent;
 import com.emesall.petclinic.model.Owner;
 import com.emesall.petclinic.model.RegistrationForm;
-import com.emesall.petclinic.model.VerificationToken;
+import com.emesall.petclinic.model.token.VerificationToken;
 import com.emesall.petclinic.service.OwnerService;
-import com.emesall.petclinic.service.VerificationTokenService;
+import com.emesall.petclinic.service.Token.VerificationTokenService;
 
 @Controller
 public class RegistrationController {

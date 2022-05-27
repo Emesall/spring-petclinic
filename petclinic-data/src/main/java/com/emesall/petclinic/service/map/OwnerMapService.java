@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
+import com.emesall.petclinic.exceptions.NotFoundException;
 import com.emesall.petclinic.model.Owner;
 import com.emesall.petclinic.service.OwnerService;
 import com.emesall.petclinic.service.PetService;
@@ -53,11 +54,24 @@ public class OwnerMapService extends AbstractClassService<Owner, Long> implement
 
 	}
 
-	
+	@Override
+	public Owner findByEmail(String email) {
+
+		return map.values()
+				.stream()
+				.filter(owner -> owner.getEmail().equals(email))
+				.findFirst()
+				.orElseThrow(() -> new NotFoundException("Person with " + email + " not found"));
+
+	}
 
 	@Override
 	public boolean checkIfExists(Owner owner) {
-		if (map.values().stream().filter(own -> own.getUsername().equals(owner.getUsername())).findFirst().isPresent()) {
+		if (map.values()
+				.stream()
+				.filter(own -> own.getUsername().equals(owner.getUsername()))
+				.findFirst()
+				.isPresent()) {
 			return true;
 		}
 

@@ -1,6 +1,7 @@
 package com.emesall.petclinic.bootstrap;
 
 import java.time.LocalDate;
+import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -32,7 +33,6 @@ public class DataLoader implements CommandLineRunner {
 	private final VisitService visitService;
 	private final PasswordEncoder encoder;
 
-
 	@Autowired
 	public DataLoader(OwnerService ownerService, VetService vetService, PetTypeService petTypeService,
 			SpecialityService specialityService, VisitService visitService, PasswordEncoder encoder,
@@ -45,8 +45,7 @@ public class DataLoader implements CommandLineRunner {
 		this.visitService = visitService;
 		this.encoder = encoder;
 		this.adminService = adminService;
-	
-		
+
 	}
 
 	@Override
@@ -95,7 +94,7 @@ public class DataLoader implements CommandLineRunner {
 				.address("123 Brickerel")
 				.city("Miami")
 				.telephone("123232")
-				
+
 				.build();
 
 		Pet mikesPet = new Pet();
@@ -111,7 +110,6 @@ public class DataLoader implements CommandLineRunner {
 		owner1.addPet(mikesCat);
 
 		ownerService.save(owner1);
-	
 
 		Owner owner2 = new Owner();
 		owner2.setEmail("owner2@mail.com");
@@ -131,7 +129,6 @@ public class DataLoader implements CommandLineRunner {
 		owner2.getPets().add(fionasCat);
 
 		ownerService.save(owner2);
-	
 
 		Visit dogVisit = new Visit();
 		dogVisit.setPet(mikesPet);
@@ -146,6 +143,8 @@ public class DataLoader implements CommandLineRunner {
 		catVisit.setDescription("Sneezy Kitty");
 
 		visitService.save(catVisit);
+		
+		createRandomOwners(50);
 
 		System.out.println("Loaded Owners....");
 
@@ -173,10 +172,45 @@ public class DataLoader implements CommandLineRunner {
 	}
 
 	private void loadAdmins() {
-		Admin admin1 = Admin.builder().enabled(true).email("panda@mail.com").username("panda").password(encoder.encode("piu")).firstName("admin1").lastName("admin1").build();
-		Admin admin2 = Admin.builder().enabled(true).email("kot@mail.com").username("kot").password(encoder.encode("dziab")).firstName("admin2").lastName("admin2").build();
+		Admin admin1 = Admin.builder()
+				.enabled(true)
+				.email("panda@mail.com")
+				.username("panda")
+				.password(encoder.encode("piu"))
+				.firstName("admin1")
+				.lastName("admin1")
+				.build();
+		Admin admin2 = Admin.builder()
+				.enabled(true)
+				.email("kot@mail.com")
+				.username("kot")
+				.password(encoder.encode("dziab"))
+				.firstName("admin2")
+				.lastName("admin2")
+				.build();
 		adminService.save(admin1);
 		adminService.save(admin2);
 
 	}
+
+	private void createRandomOwners(int number) {
+		
+		
+		for (int i = 0; i < number; i++) {
+			Owner owner = Owner.builder()
+					.enabled(true)
+					.email("test@mail.com")
+					.username("owners"+i)
+					.password(encoder.encode("password"))
+					.firstName("Michael"+i)
+					.lastName("Weston"+i)
+					.address("123 Brickerel"+i)
+					.city("Miami"+i)
+					.telephone("123232"+i)
+					.build();
+			ownerService.save(owner);
+		}
+	}
+
+	
 }
