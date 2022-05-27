@@ -86,7 +86,7 @@ public class DataLoader implements CommandLineRunner {
 
 		Owner owner1 = Owner.builder()
 				.enabled(true)
-				.email("owner1@mail.com")
+				.email("raphaelnisbet@gmail.com")
 				.username("owner1")
 				.password(encoder.encode("owner1"))
 				.firstName("Michael")

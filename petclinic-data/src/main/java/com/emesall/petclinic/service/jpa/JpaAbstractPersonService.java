@@ -44,7 +44,7 @@ public abstract class JpaAbstractPersonService<T extends Person>
 	@Override
 	public boolean checkIfExists(T person) {
 
-		if (repository.findByUsername(person.getUsername()).isPresent()) {
+		if (repository.findByUsername(person.getUsername()).isPresent() ) {
 			return true;
 		}
 

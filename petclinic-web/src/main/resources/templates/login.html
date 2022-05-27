@@ -15,7 +15,11 @@
 		You have been logged out.</div>
 	<div th:if="${param.registered}"
 		class="alert alert-success text-center">Successfully registered.</div>
-		
+	<div th:if="${param.passChanged}"
+		class="alert alert-success text-center">Your password has been
+		successfully changed.</div>
+	<div th:if="${param.expired}" class="alert alert-success text-center">Link
+		expired.</div>
 	<form class="form-horizontal" th:action="@{/login}" method="POST"
 		id="loginForm">
 		<div class="form-group has-feedback">
@@ -40,7 +44,6 @@
 				</div>
 			</div>
 
-
 		</div>
 		<div class="form-group">
 			<div class="col-sm-offset-2 col-sm-10">
@@ -52,11 +55,15 @@
 			<div class="col-sm-offset-2 col-sm-10">
 				<button class="btn btn-default" type="submit" th:text="Login">Login</button>
 			</div>
+			<div class="col-sm-offset-4 col-sm-5">
+				<a th:href="@{/forgotPassword}">Forgot password?</a>
+			</div>
 		</div>
 	</form>
 	<div>
 		New here? Click <a th:href="@{/register/owner}">here</a> to register.
 	</div>
+
 </body>
 
 </html>
