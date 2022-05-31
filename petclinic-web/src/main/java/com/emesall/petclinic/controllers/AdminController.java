@@ -1,10 +1,11 @@
 package com.emesall.petclinic.controllers;
 
-import java.util.List;
-
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -24,6 +25,7 @@ import com.emesall.petclinic.service.OwnerService;
 @Controller
 public class AdminController {
 
+	private static final int pageSize = 5;
 	private final OwnerService ownerService;
 
 	@Autowired
@@ -37,36 +39,40 @@ public class AdminController {
 		dataBinder.setDisallowedFields("id");
 	}
 
-
 	@GetMapping("/owners/find")
 	public String findOwners(Model model) {
 		model.addAttribute("owner", Owner.builder().build());
 		return "admin/findOwners";
 	}
 
-	@GetMapping("/owners")
-	public String processFindForm(@ModelAttribute Owner owner, BindingResult bindingResult, Model model) {
+	@GetMapping("/owners/page/{pageNum}")
+	public String processFindForm(@ModelAttribute Owner owner, BindingResult bindingResult, @PathVariable int pageNum,
+			Model model) {
 
 		// if there is no name provided, we show list of all owners
 		if (owner.getLastName() == null) {
 			owner.setLastName("");
 		}
 
+		Page<Owner> results = ownerService.findByLastName("%" + owner.getLastName() + "%",
+				PageRequest.of(pageNum - 1, pageSize));
+		//add additional info
+		model.addAttribute("currentPage", pageNum);
+		model.addAttribute("totalPages", results.getTotalPages());
+		model.addAttribute("totalResults", results.getTotalElements());
 		// find owners by last name
-		List<Owner> results = ownerService.findByLastName("%" + owner.getLastName() + "%");
-
 		if (results.isEmpty()) {
 			// no owners found
 			bindingResult.rejectValue("lastName", "notFound", "not found");
 
 			return "admin/findOwners";
-		} else if (results.size() == 1) {
+		} else if (results.getContent().size() == 1) {
 			// 1 owner found
-			owner = results.get(0);
+			owner = results.getContent().get(0);
 			return "redirect:/admin/owners/" + owner.getId();
 		} else {
 			// multiple owners found
-			model.addAttribute("selections", results);
+			model.addAttribute("selections", results.getContent());
 			return "admin/ownersList";
 		}
 	}
@@ -83,7 +89,7 @@ public class AdminController {
 		if (bindingResult.hasErrors()) {
 			return "owners/createOrUpdateOwnerForm";
 		} else {
-			Owner savedOwner=ownerService.save(owner);
+			Owner savedOwner = ownerService.save(owner);
 			return "redirect:/admin/owners/" + savedOwner.getId();
 
 		}
@@ -103,13 +109,13 @@ public class AdminController {
 			return "owners/createOrUpdateOwnerForm";
 		} else {
 			owner.setId(id);
-			
-			Owner savedOwner=ownerService.save(owner);
+
+			Owner savedOwner = ownerService.save(owner);
 			return "redirect:/admin/owners/" + savedOwner.getId();
 
 		}
 	}
-	
+
 	@GetMapping("/owners/{id}")
 	public ModelAndView showOwner(@PathVariable Long id) {
 
@@ -117,7 +123,5 @@ public class AdminController {
 		mav.addObject("owner", ownerService.findById(id));
 		return mav;
 	}
-	
-	
-	
+
 }

@@ -33,5 +33,21 @@
 			</tbody>
 		</table>
 	</div>
+	<div class="col-12 text-center">
+		
+		<a th:if="${currentPage > 1}" 
+			th:href="@{${currentPage - 1}+'?lastName='+${owner.lastName}}">Previous</a> <span
+			th:unless="${currentPage > 1}">Previous</span>
+		<span th:each="i: ${#numbers.sequence(1, totalPages)}">
+    	<a th:if="${currentPage != i}" th:href="@{${i}+'?lastName='+${owner.lastName}}">[[${i}]]</a>
+    	<span th:unless="${currentPage != i}">[[${i}]]</span>
+   				 &nbsp;
+			</span>	
+		<a th:if="${currentPage < totalPages}" th:href="@{${currentPage + 1}+'?lastName='+${owner.lastName}}">Next</a>
+		<span th:unless="${currentPage < totalPages}">Next</span>
+		<p style="margin-top: 20px">Total Results: [[${totalResults}]] </p>
+
+
+	</div>
 </body>
 </html>

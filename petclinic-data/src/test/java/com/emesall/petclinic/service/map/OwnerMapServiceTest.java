@@ -61,7 +61,7 @@ class OwnerMapServiceTest {
 		assertEquals(1, mapService.map.size());
 	}
 
-	@Test
+/*	@Test
 	void testFindByLastName() {
 		// when
 		List<Owner> foundOwner = mapService.findByLastName(LASTNAME);
@@ -81,7 +81,7 @@ class OwnerMapServiceTest {
 		assertThat(foundOwner.isEmpty());
 
 	}
-
+*/
 	@Test
 	void testFindAll() {
 		// when

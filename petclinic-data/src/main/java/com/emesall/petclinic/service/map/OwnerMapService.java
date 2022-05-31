@@ -1,10 +1,9 @@
 package com.emesall.petclinic.service.map;
 
-import java.util.List;
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.emesall.petclinic.exceptions.NotFoundException;
@@ -48,10 +47,10 @@ public class OwnerMapService extends AbstractClassService<Owner, Long> implement
 	}
 
 	@Override
-	public List<Owner> findByLastName(String lastName) {
+	public Page<Owner> findByLastName(String lastName,Pageable pageable) {
 
-		return map.values().stream().filter(owner -> owner.getLastName().equals(lastName)).toList();
-
+		//return map.values().stream().filter(owner -> owner.getLastName().equals(lastName)).toList();
+		return null;
 	}
 
 	@Override

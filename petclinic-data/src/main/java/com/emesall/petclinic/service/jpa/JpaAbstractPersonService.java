@@ -1,8 +1,8 @@
 package com.emesall.petclinic.service.jpa;
 
-import java.util.List;
-
 import org.springframework.context.annotation.Profile;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -21,9 +21,9 @@ public abstract class JpaAbstractPersonService<T extends Person>
 	}
 
 	@Override
-	public List<T> findByLastName(String lastName) {
+	public Page<T> findByLastName(String lastName, Pageable pageable) {
 
-		return repository.findByLastNameLikeIgnoreCase(lastName);
+		return repository.findByLastNameLikeIgnoreCase(lastName,pageable);
 	}
 
 	@Override

@@ -22,6 +22,10 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -99,12 +103,14 @@ class AdminControllerTest {
 	@Test
 	void processFindFormFoundOne() throws Exception {
 		// given
+		Pageable pageable=PageRequest.of(0, 5);
 		List<Owner> owners = new ArrayList<>();
 		owners.add(Owner.builder().id(ID).lastName(LASTNAME).build());
-		when(ownerService.findByLastName(anyString())).thenReturn(owners);
+		Page<Owner> page=new PageImpl<>(owners, pageable, owners.size());
+		when(ownerService.findByLastName(anyString(),any(Pageable.class))).thenReturn(page);
 
 		// then
-		mockMvc.perform(get("/admin/owners"))
+		mockMvc.perform(get("/admin/owners/page/1"))
 				.andExpect(status().is3xxRedirection())
 				.andExpect(view().name("redirect:/admin/owners/" + ID));
 
@@ -113,13 +119,15 @@ class AdminControllerTest {
 	@Test
 	void processFindFormFoundMore() throws Exception {
 		// given
+		Pageable pageable=PageRequest.of(0, 5);
 		List<Owner> owners = new ArrayList<>();
 		owners.add(Owner.builder().id(ID).lastName(LASTNAME).build());
 		owners.add(Owner.builder().id(2L).lastName("test").build());
-		when(ownerService.findByLastName(anyString())).thenReturn(owners);
+		Page<Owner> page=new PageImpl<>(owners, pageable, owners.size());
+		when(ownerService.findByLastName(anyString(),any(Pageable.class))).thenReturn(page);
 
 		// then
-		mockMvc.perform(get("/admin/owners"))
+		mockMvc.perform(get("/admin/owners/page/1"))
 				.andExpect(status().isOk())
 				.andExpect(view().name("admin/ownersList"))
 				.andExpect(model().attributeExists("selections"))
@@ -130,10 +138,10 @@ class AdminControllerTest {
 	void processFindFormNotFound() throws Exception {
 		// given
 
-		when(ownerService.findByLastName(anyString())).thenReturn(Collections.emptyList());
+		when(ownerService.findByLastName(anyString(),any(Pageable.class))).thenReturn(Page.empty());
 
 		// then
-		mockMvc.perform(get("/admin/owners"))
+		mockMvc.perform(get("/admin/owners/page/1"))
 				.andExpect(status().isOk())
 				.andExpect(view().name("admin/findOwners"))
 				.andExpect(model().attributeExists("owner"));

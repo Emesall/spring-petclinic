@@ -19,6 +19,10 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import com.emesall.petclinic.model.Owner;
 import com.emesall.petclinic.repository.OwnerRepository;
@@ -44,17 +48,20 @@ class JpaOwnerServiceTest {
 	void testFindOneByLastName() {
 		
 		// given
+		Pageable pageable= PageRequest.of(0, 5);
 		List<Owner> owners=new ArrayList<>();
 		owners.add(owner);
-		when(ownerRepository.findByLastNameLikeIgnoreCase(anyString())).thenReturn(owners);
+		Page<Owner> page=new PageImpl<>(owners,pageable , owners.size());
+
+		when(ownerRepository.findByLastNameLikeIgnoreCase(anyString(),any(Pageable.class))).thenReturn(page);
 		// when
-		List<Owner> foundOwners = jpaOwnerService.findByLastName(LASTNAME);
+		Page<Owner> foundOwners = jpaOwnerService.findByLastName(LASTNAME,pageable);
 		// then
 		assertNotNull(foundOwners);
-		verify(ownerRepository, times(1)).findByLastNameLikeIgnoreCase(anyString());
-		assertEquals(_ID, foundOwners.get(0).getId());
-		assertEquals(LASTNAME, foundOwners.get(0).getLastName());
-		assertEquals(1, foundOwners.size());
+		verify(ownerRepository, times(1)).findByLastNameLikeIgnoreCase(anyString(),any(Pageable.class));
+		assertEquals(_ID, foundOwners.getContent().get(0).getId());
+		assertEquals(LASTNAME, foundOwners.getContent().get(0).getLastName());
+		assertEquals(1, foundOwners.getContent().size());
 
 	}
 	
@@ -62,16 +69,18 @@ class JpaOwnerServiceTest {
 	void testFindMoreByLastName() {
 		
 		// given
+		Pageable pageable= PageRequest.of(0, 5);
 		List<Owner> owners=new ArrayList<>();
 		owners.add(owner);
 		owners.add(Owner.builder().id(2L).lastName("test2222").build());
-		when(ownerRepository.findByLastNameLikeIgnoreCase(anyString())).thenReturn(owners);
+		Page<Owner> page=new PageImpl<>(owners,pageable , owners.size());
+		when(ownerRepository.findByLastNameLikeIgnoreCase(anyString(),any(Pageable.class))).thenReturn(page);
 		// when
-		List<Owner> foundOwners = jpaOwnerService.findByLastName(LASTNAME);
+		Page<Owner> foundOwners = jpaOwnerService.findByLastName(LASTNAME,pageable);
 		// then
 		assertNotNull(foundOwners);
-		verify(ownerRepository, times(1)).findByLastNameLikeIgnoreCase(anyString());
-		assertEquals(2, foundOwners.size());
+		verify(ownerRepository, times(1)).findByLastNameLikeIgnoreCase(anyString(),any(Pageable.class));
+		assertEquals(2, foundOwners.getContent().size());
 
 	}
 
