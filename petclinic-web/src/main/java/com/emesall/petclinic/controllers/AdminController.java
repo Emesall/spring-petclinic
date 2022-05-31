@@ -66,8 +66,8 @@ public class AdminController {
 			bindingResult.rejectValue("lastName", "notFound", "not found");
 
 			return "admin/findOwners";
-		} else if (results.getContent().size() == 1) {
-			// 1 owner found
+		} else if (results.getContent().size() == 1 && pageNum==1) {
+			// 1 owner found and not the last page
 			owner = results.getContent().get(0);
 			return "redirect:/admin/owners/" + owner.getId();
 		} else {
