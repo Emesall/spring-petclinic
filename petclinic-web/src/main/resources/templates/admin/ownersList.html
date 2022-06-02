@@ -10,12 +10,24 @@
 		<table id="vets" class="table table-striped">
 			<thead>
 				<tr>
-					<th>Username</th>
-					<th>Email</th>
-					<th>Name</th>
-					<th>Address</th>
-					<th>City</th>
-					<th>Telephone</th>
+					<th><a
+						th:href="@{${currentPage} +'?lastName='+${owner.lastName} +'&sortField=id&sortDir=' + ${reverseSortDir}}">Username
+					</a></th>
+					<th><a
+						th:href="@{${currentPage} +'?lastName='+${owner.lastName} +'&sortField=email&sortDir=' + ${reverseSortDir}}">Email
+					</a></th>
+					<th><a
+						th:href="@{${currentPage} +'?lastName='+${owner.lastName} +'&sortField=lastName&sortDir=' + ${reverseSortDir}}">Name
+					</a></th>
+					<th><a
+						th:href="@{${currentPage} +'?lastName='+${owner.lastName} +'&sortField=address&sortDir=' + ${reverseSortDir}}">Address
+					</a></th>
+					<th><a
+						th:href="@{${currentPage} +'?lastName='+${owner.lastName} +'&sortField=city&sortDir=' + ${reverseSortDir}}">City
+					</a></th>
+					<th><a
+						th:href="@{${currentPage} +'?lastName='+${owner.lastName} +'&sortField=telephone&sortDir=' + ${reverseSortDir}}">Telephone
+					</a></th>
 					<th>Pets</th>
 				</tr>
 			</thead>
@@ -34,18 +46,18 @@
 		</table>
 	</div>
 	<div class="col-12 text-center">
-		
-		<a th:if="${currentPage > 1}" 
-			th:href="@{${currentPage - 1}+'?lastName='+${owner.lastName}}">Previous</a> <span
-			th:unless="${currentPage > 1}">Previous</span>
-		<span th:each="i: ${#numbers.sequence(1, totalPages)}">
-    	<a th:if="${currentPage != i}" th:href="@{${i}+'?lastName='+${owner.lastName}}">[[${i}]]</a>
-    	<span th:unless="${currentPage != i}">[[${i}]]</span>
-   				 &nbsp;
-			</span>	
-		<a th:if="${currentPage < totalPages}" th:href="@{${currentPage + 1}+'?lastName='+${owner.lastName}}">Next</a>
+
+		<a th:if="${currentPage > 1}"
+			th:href="@{${currentPage - 1}+'?lastName='+${owner.lastName}+'&sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Previous</a>
+		<span th:unless="${currentPage > 1}">Previous</span> <span
+			th:each="i: ${#numbers.sequence(1, totalPages)}"> <a
+			th:if="${currentPage != i}"
+			th:href="@{${i}+'?lastName='+${owner.lastName}}+'&sortField=' + ${sortField} + '&sortDir=' + ${sortDir}">[[${i}]]</a> <span
+			th:unless="${currentPage != i}">[[${i}]]</span> &nbsp;
+		</span> <a th:if="${currentPage < totalPages}"
+			th:href="@{${currentPage + 1}+'?lastName='+${owner.lastName}+'&sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Next</a>
 		<span th:unless="${currentPage < totalPages}">Next</span>
-		<p style="margin-top: 20px">Total Results: [[${totalResults}]] </p>
+		<p style="margin-top: 20px">Total Results: [[${totalResults}]]</p>
 
 
 	</div>

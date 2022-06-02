@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -16,17 +17,24 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.emesall.petclinic.model.Owner;
 import com.emesall.petclinic.service.OwnerService;
 
 @RequestMapping("/admin")
+@ConfigurationProperties(prefix="owners")
 @Controller
 public class AdminController {
 
-	private static final int pageSize = 5;
+	private int pageSize = 5;
 	private final OwnerService ownerService;
+
+	
+	public void setPageSize(int pageSize) {
+		this.pageSize = pageSize;
+	}
 
 	@Autowired
 	public AdminController(OwnerService ownerService) {
@@ -47,26 +55,33 @@ public class AdminController {
 
 	@GetMapping("/owners/page/{pageNum}")
 	public String processFindForm(@ModelAttribute Owner owner, BindingResult bindingResult, @PathVariable int pageNum,
+			@RequestParam(required = false) String sortField, @RequestParam(required = false) String sortDir,
 			Model model) {
 
 		// if there is no name provided, we show list of all owners
 		if (owner.getLastName() == null) {
 			owner.setLastName("");
 		}
-
-		Page<Owner> results = ownerService.findByLastName("%" + owner.getLastName() + "%",
-				PageRequest.of(pageNum - 1, pageSize));
-		//add additional info
+		if (sortField == null)
+			sortField = "id";
+		if (sortDir == null)
+			sortDir = "asc";
+		Page<Owner> results = ownerService.findByLastName("%" + owner.getLastName() + "%", PageRequest.of(pageNum - 1,
+				pageSize, sortDir.equals("asc") ? Sort.by(sortField).ascending() : Sort.by(sortField).descending()));
+		// add additional info
 		model.addAttribute("currentPage", pageNum);
 		model.addAttribute("totalPages", results.getTotalPages());
 		model.addAttribute("totalResults", results.getTotalElements());
+		model.addAttribute("sortField", sortField);
+		model.addAttribute("sortDir", sortDir);
+		model.addAttribute("reverseSortDir", sortDir.equals("asc") ? "desc" : "asc");
 		// find owners by last name
 		if (results.isEmpty()) {
 			// no owners found
 			bindingResult.rejectValue("lastName", "notFound", "not found");
 
 			return "admin/findOwners";
-		} else if (results.getContent().size() == 1 && pageNum==1) {
+		} else if (results.getContent().size() == 1 && pageNum == 1) {
 			// 1 owner found and not the last page
 			owner = results.getContent().get(0);
 			return "redirect:/admin/owners/" + owner.getId();
